@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Studio | Power Trio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-text"></div>
+    </div>
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-triangle"><svg viewBox="0 0 100 100">
+                        <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                        <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                        <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                    </svg></div>
+                <span class="logo-text">Power Trio</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="studio.html" class="nav-link active">The Studio</a>
+                <a href="minds.html" class="nav-link">The Minds</a>
+                <a href="work.html" class="nav-link">Work</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <a href="lab.html" class="nav-link">The Lab</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <a href="contact.html" class="cta-button magnetic"><span>Join the Journey</span></a>
+            <button class="menu-toggle"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <section
+        style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: calc(var(--navbar-height) + var(--spacing-3xl));">
+        <div class="container">
+            <h1 class="section-title">The Studio</h1>
+            <p class="section-description" style="max-width: 600px; margin: 2rem auto;">
+                We're a collective of three creative minds who came together with a shared vision:
+                to create digital experiences that don't just look good, but drive real results.
+            </p>
+            <div
+                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem; max-width: 900px; margin-left: auto; margin-right: auto;">
+                <div class="glass-card" style="padding: 2rem;">
+                    <h3 style="color: var(--color-accent-secondary); margin-bottom: 1rem;">Our Philosophy</h3>
+                    <p style="color: var(--color-text-secondary);">Three perspectives, one unified approach to solving
+                        complex problems.</p>
+                </div>
+                <div class="glass-card" style="padding: 2rem;">
+                    <h3 style="color: var(--color-accent-secondary); margin-bottom: 1rem;">Our Culture</h3>
+                    <p style="color: var(--color-text-secondary);">Collaboration, creativity, and continuous learning at
+                        our core.</p>
+                </div>
+                <div class="glass-card" style="padding: 2rem;">
+                    <h3 style="color: var(--color-accent-secondary); margin-bottom: 1rem;">Our Mission</h3>
+                    <p style="color: var(--color-text-secondary);">Building the future of digital, one project at a
+                        time.</p>
+                </div>
+            </div>
+            <a href="minds.html" class="btn-primary magnetic" style="margin-top: 3rem; display: inline-flex;"><span>Meet
+                    the Team</span></a>
+        </div>
+    </section>
+    <div class="chatbot" id="chatbot"><button class="chatbot-toggle magnetic" id="chatbot-toggle"><svg class="icon-chat"
+                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" />
+            </svg><svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" />
+                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" />
+            </svg></button>
+        <div class="chatbot-window glass-card" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar">
+                    <div class="logo-triangle small"><svg viewBox="0 0 100 100">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        </svg></div>
+                </div>
+                <div class="chatbot-info">
+                    <h4>Power Trio AI</h4><span class="chatbot-status"><span class="status-dot"></span>Online</span>
+                </div>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-content">Hey there! 👋 I'm the Power Trio AI assistant. How can I help you
+                        today?</div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+            <div class="chatbot-input"><input type="text" id="chatbot-input-field"
+                    placeholder="Type your message..." /><button class="chatbot-send magnetic" id="chatbot-send"><svg
+                        width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <path d="M19 1L9 11M19 1l-6 18-4-8-8-4 18-6z" stroke-width="2" />
+                    </svg></button></div>
+        </div>
+    </div>
+    <script src="../js/cursor.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>

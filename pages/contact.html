@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Get in touch with Power Trio - Let's create something amazing together">
+    <title>Contact Us | Power Trio Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        .contact-hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: calc(var(--navbar-height) + var(--spacing-3xl));
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--container-padding);
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: var(--spacing-3xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .contact-info {
+            position: sticky;
+            top: calc(var(--navbar-height) + var(--spacing-lg));
+            height: fit-content;
+        }
+
+        .contact-card {
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .contact-card h3 {
+            font-size: var(--text-xl);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .contact-method {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: var(--border-radius-md);
+            margin-bottom: var(--spacing-sm);
+            transition: all var(--transition-base);
+        }
+
+        .contact-method:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateX(5px);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-primary);
+        }
+
+        .contact-details h4 {
+            font-size: var(--text-base);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-details p {
+            font-size: var(--text-sm);
+            color: var(--color-accent-secondary);
+            margin: 0;
+        }
+
+        .timezone-info {
+            padding: var(--spacing-lg);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--border-radius-md);
+            text-align: center;
+        }
+
+        .timezone-clock {
+            font-size: var(--text-3xl);
+            font-family: var(--font-mono);
+            color: var(--color-success);
+            margin: var(--spacing-sm) 0;
+        }
+
+        .contact-form-container {
+            background: var(--color-bg-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-xl);
+            padding: var(--spacing-2xl);
+        }
+
+        .form-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--spacing-2xl);
+            position: relative;
+        }
+
+        .form-steps::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: 0;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--spacing-xs);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transition: all var(--transition-base);
+        }
+
+        .step.active .step-number {
+            background: var(--gradient-primary);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.5);
+        }
+
+        .step.completed .step-number {
+            background: var(--color-success);
+            border-color: var(--color-success);
+        }
+
+        .step-label {
+            font-size: var(--text-xs);
+            color: var(--color-text-secondary);
+        }
+
+        .step.active .step-label {
+            color: var(--color-accent-secondary);
+            font-weight: 600;
+        }
+
+        .form-step-content {
+            display: none;
+        }
+
+        .form-step-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-xl);
+        }
+
+        .success-message {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+            animation: scaleIn 0.5s ease-out;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-lg);
+            font-size: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-info {
+                position: static;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-text"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-triangle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                        <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                        <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                    </svg>
+                </div>
+                <span class="logo-text">Power Trio</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="studio.html" class="nav-link">The Studio</a>
+                <a href="minds.html" class="nav-link">The Minds</a>
+                <a href="work.html" class="nav-link">Work</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <a href="lab.html" class="nav-link">The Lab</a>
+                <a href="contact.html" class="nav-link active">Contact</a>
+            </div>
+
+            <a href="work.html" class="cta-button magnetic">
+                <span>View Work</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </a>
+
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="contact-hero">
+        <div class="container">
+            <span class="section-label animate-in">Let's Connect</span>
+            <h1 class="section-title animate-in">Start Your Project</h1>
+            <p class="section-description animate-in">
+                Ready to create something extraordinary? We're just a message away.
+            </p>
+        </div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="section-padding">
+        <div class="contact-container">
+            <!-- Contact Info Sidebar -->
+            <aside class="contact-info">
+                <div class="contact-card glass-card reveal">
+                    <h3>Direct Contact</h3>
+
+                    <div class="contact-method magnetic">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Alex Chen</h4>
+                            <p>alex@powertrio.studio</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method magnetic">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Jordan Rivera</h4>
+                            <p>jordan@powertrio.studio</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-method magnetic">
+                        <div class="contact-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                            </svg>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Sam Taylor</h4>
+                            <p>sam@powertrio.studio</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timezone-info reveal">
+                    <p style="font-size: var(--text-sm); color: var(--color-text-secondary); margin-bottom: 0.5rem;">Our
+                        Time Zone</p>
+                    <div class="timezone-clock" id="current-time">12:00 PM</div>
+                    <p style="font-size: var(--text-sm); color: var(--color-success); margin: 0;">PST (UTC-8)</p>
+                    <p style="font-size: var(--text-xs); color: var(--color-text-secondary); margin-top: 0.5rem;">We
+                        typically respond within 24 hours</p>
+                </div>
+            </aside>
+
+            <!-- Contact Form -->
+            <div class="contact-form-container reveal">
+                <div class="form-steps">
+                    <div class="step active">
+                        <div class="step-number">1</div>
+                        <span class="step-label">About You</span>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <span class="step-label">Your Project</span>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <span class="step-label">Budget & Timeline</span>
+                    </div>
+                </div>
+
+                <form id="contact-form">
+                    <!-- Step 1: About You -->
+                    <div class="form-step-content active" data-step="1">
+                        <h3 style="margin-bottom: var(--spacing-lg);">Tell us about yourself</h3>
+
+                        <div class="form-group">
+                            <label class="form-label" for="name">Full Name *</label>
+                            <input type="text" id="name" class="form-input" required placeholder="John Doe">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-input" required placeholder="john@example.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="company">Company / Organization</label>
+                            <input type="text" id="company" class="form-input" placeholder="Acme Inc.">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+1 (555) 123-4567">
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Your Project -->
+                    <div class="form-step-content" data-step="2">
+                        <h3 style="margin-bottom: var(--spacing-lg);">What do you need?</h3>
+
+                        <div class="form-group">
+                            <label class="form-label" for="service">Service Type *</label>
+                            <select id="service" class="form-select" required>
+                                <option value="">Select a service</option>
+                                <option value="web-design">Web Design</option>
+                                <option value="web-development">Web Development</option>
+                                <option value="branding">Brand Identity</option>
+                                <option value="mobile-app">Mobile App</option>
+                                <option value="consulting">Consulting</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="project-description">Project Description *</label>
+                            <textarea id="project-description" class="form-textarea" required
+                                placeholder="Tell us about your project, goals, and vision..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="website">Website / Portfolio (if applicable)</label>
+                            <input type="url" id="website" class="form-input" placeholder="https://example.com">
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Budget & Timeline -->
+                    <div class="form-step-content" data-step="3">
+                        <h3 style="margin-bottom: var(--spacing-lg);">Project details</h3>
+
+                        <div class="form-group">
+                            <label class="form-label" for="budget">Budget Range *</label>
+                            <select id="budget" class="form-select" required>
+                                <option value="">Select budget range</option>
+                                <option value="5k-10k">$5,000 - $10,000</option>
+                                <option value="10k-25k">$10,000 - $25,000</option>
+                                <option value="25k-50k">$25,000 - $50,000</option>
+                                <option value="50k-100k">$50,000 - $100,000</option>
+                                <option value="100k+">$100,000+</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="timeline">Desired Timeline *</label>
+                            <select id="timeline" class="form-select" required>
+                                <option value="">Select timeline</option>
+                                <option value="asap">ASAP (1-2 weeks)</option>
+                                <option value="1-month">1 Month</option>
+                                <option value="2-3-months">2-3 Months</option>
+                                <option value="3-6-months">3-6 Months</option>
+                                <option value="flexible">Flexible</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="referral">How did you hear about us?</label>
+                            <input type="text" id="referral" class="form-input"
+                                placeholder="Google, Referral, Social Media, etc.">
+                        </div>
+                    </div>
+
+                    <!-- Form Navigation -->
+                    <div class="form-navigation">
+                        <button type="button" class="btn-secondary" id="prev-btn" style="display: none;">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
+                                style="transform: rotate(180deg);">
+                                <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                            <span>Previous</span>
+                        </button>
+                        <button type="button" class="btn-primary magnetic" id="next-btn">
+                            <span>Next Step</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                        <button type="submit" class="btn-primary magnetic" id="submit-btn" style="display: none;">
+                            <span>Send Message</span>
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M15 1L7 9M15 1l-4 14-3-6-6-3 13-5z" stroke="currentColor" stroke-width="2" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Success Message -->
+                <div class="success-message" id="success-message">
+                    <div class="success-icon">✓</div>
+                    <h2 style="margin-bottom: var(--spacing-md);">Message Sent!</h2>
+                    <p style="color: var(--color-text-secondary); margin-bottom: var(--spacing-lg);">
+                        Thank you for reaching out! We'll review your project details and get back to you within 24
+                        hours.
+                    </p>
+                    <a href="../index.html" class="btn-outline magnetic">
+                        <span>Back to Home</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="logo-triangle">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                            <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                            <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                            <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                        </svg>
+                    </div>
+                    <h3>Power Trio</h3>
+                    <p>Three minds, one vision.<br>Building the future of digital.</p>
+                </div>
+
+                <div class="footer-social-grid">
+                    <div class="footer-member">
+                        <h4>Alex Chen</h4>
+                        <p class="member-role">Creative Director</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Jordan Rivera</h4>
+                        <p class="member-role">Lead Developer</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Twitter">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.92a8.18 8.18 0 01-2.36.65 4.12 4.12 0 001.8-2.27 8.22 8.22 0 01-2.6 1 4.1 4.1 0 00-6.99 3.74 11.65 11.65 0 01-8.46-4.29 4.1 4.1 0 001.27 5.47 4.07 4.07 0 01-1.86-.51v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Sam Taylor</h4>
+                        <p class="member-role">Brand Strategist</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Instagram">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 1.8c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4 1.1-.1 1.4-.1 4.1-.1M10 0C7.3 0 6.9 0 5.8.1c-1.1 0-1.9.3-2.6.6-.7.3-1.3.7-1.9 1.3S.6 3 .3 3.7C.1 4.4-.1 5.2.1 6.3 0 7.4 0 7.8 0 10.5s0 3.1.1 4.2c0 1.1.3 1.9.6 2.6.3.7.7 1.3 1.3 1.9s1.2 1 1.9 1.3c.7.3 1.5.5 2.6.6 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c1.1 0 1.9-.3 2.6-.6.7-.3 1.3-.7 1.9-1.3s1-1.2 1.3-1.9c.3-.7.5-1.5.6-2.6.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c0-1.1-.3-1.9-.6-2.6-.3-.7-.7-1.3-1.3-1.9S16 .6 15.3.3C14.6.1 13.8-.1 12.7.1 11.6 0 11.2 0 10 0z" />
+                                    <path
+                                        d="M10 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3S8.2 6.7 10 6.7s3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" />
+                                    <circle cx="15.3" cy="4.7" r="1.2" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="studio.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <p class="copyright">© 2026 Power Trio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot" id="chatbot">
+        <button class="chatbot-toggle magnetic" id="chatbot-toggle" aria-label="Toggle chatbot">
+            <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" />
+            </svg>
+            <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" />
+                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" />
+            </svg>
+        </button>
+
+        <div class="chatbot-window glass-card" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar">
+                    <div class="logo-triangle small">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="chatbot-info">
+                    <h4>Power Trio AI</h4>
+                    <span class="chatbot-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+            </div>
+
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        Hey there! 👋 I'm the Power Trio AI assistant. How can I help you today?
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input-field" placeholder="Type your message..." />
+                <button class="chatbot-send magnetic" id="chatbot-send" aria-label="Send message">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <path d="M19 1L9 11M19 1l-6 18-4-8-8-4 18-6z" stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/cursor.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Multi-step form logic
+        let currentStep = 1;
+        const totalSteps = 3;
+
+        const nextBtn = document.getElementById('next-btn');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const form = document.getElementById('contact-form');
+        const successMessage = document.getElementById('success-message');
+
+        function updateStep() {
+            // Update step indicators
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index + 1 < currentStep) {
+                    step.classList.add('completed');
+                } else if (index + 1 === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+
+            // Update form content
+            document.querySelectorAll('.form-step-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelector(`[data-step="${currentStep}"]`).classList.add('active');
+
+            // Update buttons
+            prevBtn.style.display = currentStep === 1 ? 'none' : 'flex';
+            nextBtn.style.display = currentStep === totalSteps ? 'none' : 'flex';
+            submitBtn.style.display = currentStep === totalSteps ? 'flex' : 'none';
+        }
+
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < totalSteps) {
+                currentStep++;
+                updateStep();
+            }
+        });
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                updateStep();
+            }
+        });
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Show success message
+            form.style.display = 'none';
+            document.querySelector('.form-steps').style.display = 'none';
+            successMessage.classList.add('active');
+        });
+
+        // Update clock
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', {
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+            document.getElementById('current-time').textContent = timeString;
+        }
+
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+
+</html>

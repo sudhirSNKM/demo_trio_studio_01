@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Explore Power Trio's portfolio of award-winning projects">
+    <title>Our Work | Power Trio Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        .work-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: calc(var(--navbar-height) + var(--spacing-3xl));
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            margin: var(--spacing-2xl) 0;
+            padding: var(--spacing-lg);
+            background: rgba(21, 25, 33, 0.6);
+            backdrop-filter: blur(var(--blur-lg));
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--color-text-secondary);
+            font-family: var(--font-body);
+            font-size: var(--text-sm);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--gradient-primary);
+            border-color: var(--color-accent);
+            color: var(--color-text-primary);
+            transform: translateY(-2px);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-bottom: var(--spacing-3xl);
+        }
+
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .project-thumbnail {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            overflow: hidden;
+            border-radius: var(--border-radius-lg);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            transition: transform var(--transition-slow);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(11, 14, 20, 0.95) 0%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--spacing-lg);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: var(--spacing-xs);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .project-tag {
+            padding: 0.25rem 0.75rem;
+            background: rgba(99, 102, 241, 0.2);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50px;
+            font-size: var(--text-xs);
+            color: var(--color-accent-secondary);
+        }
+
+        .cta-banner {
+            text-align: center;
+            padding: var(--spacing-3xl);
+            background: var(--gradient-primary);
+            border-radius: var(--border-radius-xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .cta-banner h2 {
+            margin-bottom: var(--spacing-md);
+        }
+
+        .cta-banner p {
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        /* 3D Flip Card Styles */
+        .project-card {
+            perspective: 1000px;
+            height: 500px;
+        }
+
+        .project-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .project-card:hover .project-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .project-card-front,
+        .project-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+        }
+
+        .project-card-front {
+            background: rgba(21, 25, 33, 0.6);
+            backdrop-filter: blur(var(--blur-lg));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .project-card-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transform: rotateY(180deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .project-card-back h3 {
+            font-size: var(--text-3xl);
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card-back p {
+            font-size: var(--text-base);
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-card-back .btn-outline {
+            background: white;
+            color: var(--color-accent);
+            border: none;
+        }
+
+        /* Different gradients for each card */
+        .project-card[data-category="alex"] .project-card-back {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .project-card[data-category="jordan"] .project-card-back {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .project-card[data-category="sam"] .project-card-back {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-text"></div>
+    </div>
+
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-triangle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                        <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                        <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                    </svg>
+                </div>
+                <span class="logo-text">Power Trio</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="studio.html" class="nav-link">The Studio</a>
+                <a href="minds.html" class="nav-link">The Minds</a>
+                <a href="work.html" class="nav-link active">Work</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <a href="lab.html" class="nav-link">The Lab</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <a href="contact.html" class="cta-button magnetic">
+                <span>Start a Project</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </a>
+
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <section class="work-hero">
+        <div class="container">
+            <span class="section-label animate-in">Our Portfolio</span>
+            <h1 class="section-title animate-in">Crafting Digital Excellence</h1>
+            <p class="section-description animate-in">
+                127+ projects delivered. 43 happy clients. Countless hours of creative collaboration.
+            </p>
+        </div>
+    </section>
+
+    <section class="section-padding">
+        <div class="container">
+            <div class="filter-bar reveal">
+                <button class="filter-btn active magnetic" data-filter="all">All Projects</button>
+                <button class="filter-btn magnetic" data-filter="alex">Led by Alex</button>
+                <button class="filter-btn magnetic" data-filter="jordan">Led by Jordan</button>
+                <button class="filter-btn magnetic" data-filter="sam">Led by Sam</button>
+                <button class="filter-btn magnetic" data-filter="web-design">Web Design</button>
+                <button class="filter-btn magnetic" data-filter="branding">Branding</button>
+                <button class="filter-btn magnetic" data-filter="mobile">Mobile App</button>
+            </div>
+
+            <div class="projects-grid">
+                <article class="project-card filter-item reveal" data-category="alex" data-service="web-design">
+                    <div class="project-card-inner">
+                        <!-- Front of card -->
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
+                                    alt="Nebula Finance Dashboard"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta">
+                                    <span class="work-category">Web Design</span>
+                                    <span class="work-year">2026</span>
+                                </div>
+                                <h3 class="work-title">Nebula Finance</h3>
+                                <p class="work-description">A revolutionary fintech platform with AI-powered insights
+                                </p>
+                                <div class="work-team">
+                                    <span class="team-label">Led by:</span>
+                                    <span class="team-member">Alex Chen</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Back of card -->
+                        <div class="project-card-back">
+                            <h3>Nebula Finance</h3>
+                            <p>A revolutionary fintech platform with AI-powered insights and real-time analytics. Built
+                                with cutting-edge technology to transform how users manage their finances.</p>
+                            <div class="project-tags" style="justify-content: center;">
+                                <span class="project-tag">Web Design</span>
+                                <span class="project-tag">Fintech</span>
+                                <span class="project-tag">AI</span>
+                            </div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #667eea; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2: Quantum Labs -->
+                <article class="project-card filter-item reveal" data-category="jordan" data-service="branding">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop"
+                                    alt="Quantum Labs" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta"><span class="work-category">Brand Identity</span><span
+                                        class="work-year">2026</span></div>
+                                <h3 class="work-title">Quantum Labs</h3>
+                                <p class="work-description">Complete rebrand for a cutting-edge quantum computing
+                                    research facility</p>
+                                <div class="work-team"><span class="team-label">Led by:</span><span
+                                        class="team-member">Jordan Rivera</span></div>
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <h3>Quantum Labs</h3>
+                            <p>Complete rebrand for a cutting-edge quantum computing research facility. Creating a
+                                visual identity that represents innovation and scientific excellence.</p>
+                            <div class="project-tags" style="justify-content: center;"><span class="project-tag">Brand
+                                    Identity</span><span class="project-tag">Research</span><span
+                                    class="project-tag">Science</span></div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #f093fb; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3: Aurora Health -->
+                <article class="project-card filter-item reveal" data-category="sam" data-service="mobile">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop"
+                                    alt="Aurora Health" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta"><span class="work-category">Mobile App</span><span
+                                        class="work-year">2025</span></div>
+                                <h3 class="work-title">Aurora Health</h3>
+                                <p class="work-description">Wellness app connecting users with personalized healthcare
+                                    professionals</p>
+                                <div class="work-team"><span class="team-label">Led by:</span><span
+                                        class="team-member">Sam Taylor</span></div>
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <h3>Aurora Health</h3>
+                            <p>Wellness app connecting users with personalized healthcare professionals. Designed for
+                                accessibility and ease of use in critical health moments.</p>
+                            <div class="project-tags" style="justify-content: center;"><span class="project-tag">Mobile
+                                    App</span><span class="project-tag">Healthcare</span><span
+                                    class="project-tag">UX</span></div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #4facfe; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 4: Luxe Boutique -->
+                <article class="project-card filter-item reveal" data-category="alex" data-service="web-design">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&h=600&fit=crop"
+                                    alt="Luxe Boutique" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta"><span class="work-category">E-commerce</span><span
+                                        class="work-year">2025</span></div>
+                                <h3 class="work-title">Luxe Boutique</h3>
+                                <p class="work-description">Premium fashion e-commerce with immersive 3D product
+                                    visualization</p>
+                                <div class="work-team"><span class="team-label">Led by:</span><span
+                                        class="team-member">Alex Chen</span></div>
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <h3>Luxe Boutique</h3>
+                            <p>Premium fashion e-commerce with immersive 3D product visualization. Elevating online
+                                shopping with cutting-edge technology and elegant design.</p>
+                            <div class="project-tags" style="justify-content: center;"><span
+                                    class="project-tag">E-commerce</span><span class="project-tag">Fashion</span><span
+                                    class="project-tag">3D</span></div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #667eea; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 5: DataFlow Analytics -->
+                <article class="project-card filter-item reveal" data-category="jordan" data-service="web-design">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
+                                    alt="DataFlow Analytics" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta"><span class="work-category">SaaS Platform</span><span
+                                        class="work-year">2025</span></div>
+                                <h3 class="work-title">DataFlow Analytics</h3>
+                                <p class="work-description">Enterprise analytics platform with real-time data
+                                    visualization</p>
+                                <div class="work-team"><span class="team-label">Led by:</span><span
+                                        class="team-member">Jordan Rivera</span></div>
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <h3>DataFlow Analytics</h3>
+                            <p>Enterprise analytics platform with real-time data visualization. Transforming complex
+                                data into actionable insights for businesses.</p>
+                            <div class="project-tags" style="justify-content: center;"><span
+                                    class="project-tag">SaaS</span><span class="project-tag">Dashboard</span><span
+                                    class="project-tag">Analytics</span></div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #f093fb; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 6: Brew & Co -->
+                <article class="project-card filter-item reveal" data-category="sam" data-service="branding">
+                    <div class="project-card-inner">
+                        <div class="project-card-front">
+                            <div class="project-thumbnail">
+                                <img class="project-image"
+                                    src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=800&h=600&fit=crop"
+                                    alt="Brew & Co" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="padding: 1.5rem;">
+                                <div class="work-meta"><span class="work-category">Brand Identity</span><span
+                                        class="work-year">2025</span></div>
+                                <h3 class="work-title">Brew & Co.</h3>
+                                <p class="work-description">Artisan coffee brand with sustainable packaging and digital
+                                    presence</p>
+                                <div class="work-team"><span class="team-label">Led by:</span><span
+                                        class="team-member">Sam Taylor</span></div>
+                            </div>
+                        </div>
+                        <div class="project-card-back">
+                            <h3>Brew & Co.</h3>
+                            <p>Artisan coffee brand with sustainable packaging and digital presence. Crafting a warm,
+                                inviting identity that celebrates quality and sustainability.</p>
+                            <div class="project-tags" style="justify-content: center;"><span
+                                    class="project-tag">Branding</span><span class="project-tag">Food &
+                                    Beverage</span><span class="project-tag">Sustainable</span></div>
+                            <a href="case-study.html" class="btn-outline magnetic"
+                                style="margin-top: 1rem; background: white; color: #4facfe; border: none;"><span>View
+                                    Case Study →</span></a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="cta-banner reveal">
+                <h2>Ready to Start Your Project?</h2>
+                <p>Let's create something extraordinary together. Our team is ready to bring your vision to life.</p>
+                <a href="contact.html" class="btn-secondary magnetic"
+                    style="background: white; color: var(--color-accent); border: none;">
+                    <span>Get in Touch</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="logo-triangle">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                            <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                            <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                            <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                        </svg>
+                    </div>
+                    <h3>Power Trio</h3>
+                    <p>Three minds, one vision.<br>Building the future of digital.</p>
+                </div>
+
+                <div class="footer-social-grid">
+                    <div class="footer-member">
+                        <h4>Alex Chen</h4>
+                        <p class="member-role">Creative Director</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Jordan Rivera</h4>
+                        <p class="member-role">Lead Developer</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Twitter">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.92a8.18 8.18 0 01-2.36.65 4.12 4.12 0 001.8-2.27 8.22 8.22 0 01-2.6 1 4.1 4.1 0 00-6.99 3.74 11.65 11.65 0 01-8.46-4.29 4.1 4.1 0 001.27 5.47 4.07 4.07 0 01-1.86-.51v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Sam Taylor</h4>
+                        <p class="member-role">Brand Strategist</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Instagram">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 1.8c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4 1.1-.1 1.4-.1 4.1-.1M10 0C7.3 0 6.9 0 5.8.1c-1.1 0-1.9.3-2.6.6-.7.3-1.3.7-1.9 1.3S.6 3 .3 3.7C.1 4.4-.1 5.2.1 6.3 0 7.4 0 7.8 0 10.5s0 3.1.1 4.2c0 1.1.3 1.9.6 2.6.3.7.7 1.3 1.3 1.9s1.2 1 1.9 1.3c.7.3 1.5.5 2.6.6 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c1.1 0 1.9-.3 2.6-.6.7-.3 1.3-.7 1.9-1.3s1-1.2 1.3-1.9c.3-.7.5-1.5.6-2.6.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c0-1.1-.3-1.9-.6-2.6-.3-.7-.7-1.3-1.3-1.9S16 .6 15.3.3C14.6.1 13.8-.1 12.7.1 11.6 0 11.2 0 10 0z" />
+                                    <path
+                                        d="M10 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3S8.2 6.7 10 6.7s3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" />
+                                    <circle cx="15.3" cy="4.7" r="1.2" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="studio.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <p class="copyright">© 2026 Power Trio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="chatbot" id="chatbot">
+        <button class="chatbot-toggle magnetic" id="chatbot-toggle" aria-label="Toggle chatbot">
+            <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" />
+            </svg>
+            <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" />
+                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" />
+            </svg>
+        </button>
+
+        <div class="chatbot-window glass-card" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar">
+                    <div class="logo-triangle small">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="chatbot-info">
+                    <h4>Power Trio AI</h4>
+                    <span class="chatbot-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+            </div>
+
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        Hey there! 👋 I'm the Power Trio AI assistant. How can I help you today?
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input-field" placeholder="Type your message..." />
+                <button class="chatbot-send magnetic" id="chatbot-send" aria-label="Send message">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <path d="M19 1L9 11M19 1l-6 18-4-8-8-4 18-6z" stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/cursor.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const filterItems = document.querySelectorAll('.filter-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.getAttribute('data-filter');
+
+                // Update active button
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Filter items
+                filterItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    const service = item.getAttribute('data-service');
+
+                    if (filter === 'all' || category === filter || service === filter) {
+                        item.style.display = '';
+                        setTimeout(() => item.classList.add('reveal', 'active'), 10);
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

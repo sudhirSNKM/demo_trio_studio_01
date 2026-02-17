@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Meet the three minds behind Power Trio - Alex Chen, Jordan Rivera, and Sam Taylor">
+    <title>The Minds | Power Trio Studio</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght:400;500&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        /* Page-specific styles */
+        .minds-hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: calc(var(--navbar-height) + var(--spacing-3xl));
+            position: relative;
+        }
+
+        .minds-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-3xl);
+        }
+
+        .mind-card {
+            position: relative;
+            padding: var(--spacing-2xl);
+            text-align: center;
+            transition: all var(--transition-base);
+        }
+
+        .mind-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .mind-avatar {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto var(--spacing-lg);
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            font-weight: 800;
+            position: relative;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .mind-card:hover .mind-avatar {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+        }
+
+        .status-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 3px solid var(--color-bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .status-online {
+            background: var(--color-success);
+        }
+
+        .status-busy {
+            background: var(--color-warning);
+        }
+
+        .status-break {
+            background: var(--color-accent-secondary);
+        }
+
+        .mind-name {
+            font-size: var(--text-2xl);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .mind-role {
+            font-size: var(--text-lg);
+            color: var(--color-accent-secondary);
+            font-family: var(--font-mono);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mind-bio {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.8;
+        }
+
+        .mind-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-xs);
+            justify-content: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 50px;
+            font-size: var(--text-sm);
+            color: var(--color-accent-secondary);
+        }
+
+        .mind-social {
+            display: flex;
+            gap: var(--spacing-sm);
+            justify-content: center;
+        }
+
+        .personality-reveal {
+            margin-top: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            background: rgba(99, 102, 241, 0.05);
+            border-radius: var(--border-radius-md);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all var(--transition-base);
+        }
+
+        .mind-card:hover .personality-reveal {
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        .personality-item {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--spacing-sm) 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .personality-item:last-child {
+            border-bottom: none;
+        }
+
+        .personality-label {
+            color: var(--color-text-secondary);
+            font-size: var(--text-sm);
+        }
+
+        .personality-value {
+            color: var(--color-accent-secondary);
+            font-weight: 600;
+            font-size: var(--text-sm);
+        }
+
+        /* Animated Rotating Border Card Effect */
+        .mind-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 320px;
+            padding: 2px;
+            border-radius: 24px;
+            overflow: visible;
+            line-height: 1.6;
+            transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .mind-card-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 28px 24px;
+            border-radius: 22px;
+            background: rgba(21, 25, 33, 0.95);
+            backdrop-filter: blur(var(--blur-lg));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .mind-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            padding: 2px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .mind-card:hover::before {
+            opacity: 1;
+        }
+
+        .mind-card:hover {
+            box-shadow: 0rem 6px 13px rgba(102, 126, 234, 0.1),
+                0rem 24px 24px rgba(102, 126, 234, 0.09),
+                0rem 55px 33px rgba(102, 126, 234, 0.05),
+                0rem 97px 39px rgba(102, 126, 234, 0.01),
+                0rem 152px 43px rgba(102, 126, 234, 0);
+            transform: scale(1.05);
+        }
+
+        /* Different gradient colors for each team member */
+        .mind-card:nth-child(1)::before {
+            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
+        }
+
+        .mind-card:nth-child(2)::before {
+            background: linear-gradient(45deg, #f093fb, #f5576c, #f093fb);
+        }
+
+        .mind-card:nth-child(3)::before {
+            background: linear-gradient(45deg, #4facfe, #00f2fe, #4facfe);
+        }
+
+        /* Adjust grid to accommodate fixed width cards */
+        .minds-grid {
+            display: flex;
+            justify-content: center;
+            gap: var(--spacing-2xl);
+            margin-top: var(--spacing-3xl);
+            flex-wrap: wrap;
+        }
+
+        /* Adjust avatar size */
+        .mind-avatar {
+            width: 120px;
+            height: 120px;
+        }
+
+        /* Adjust text sizes for compact design */
+        .mind-name {
+            font-size: var(--text-xl);
+            margin-bottom: 0.25rem;
+        }
+
+        .mind-role {
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .mind-bio {
+            font-size: var(--text-sm);
+            margin-bottom: var(--spacing-sm);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .mind-skills {
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .skill-tag {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+        }
+
+        /* Hide personality section by default */
+        .personality-reveal {
+            display: none;
+        }
+
+        .mind-card:hover .personality-reveal {
+            display: block;
+            opacity: 1;
+            max-height: 500px;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .minds-grid {
+                gap: var(--spacing-lg);
+                padding: 0 var(--spacing-md);
+            }
+
+            .mind-card {
+                width: 100%;
+                max-width: 340px;
+            }
+
+            .mind-card-content {
+                padding: 24px 20px;
+                gap: 14px;
+            }
+
+            .mind-avatar {
+                width: 100px;
+                height: 100px;
+                font-size: 3rem;
+            }
+
+            .status-indicator {
+                width: 24px;
+                height: 24px;
+                font-size: 0.875rem;
+            }
+
+            .mind-name {
+                font-size: var(--text-lg);
+            }
+
+            .mind-role {
+                font-size: 0.8rem;
+            }
+
+            .mind-bio {
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+
+            .skill-tag {
+                padding: 0.35rem 0.7rem;
+                font-size: 0.7rem;
+            }
+
+            /* On mobile, show personality on tap/click instead of requiring hover */
+            .mind-card.active .personality-reveal {
+                display: block;
+                opacity: 1;
+                max-height: 500px;
+            }
+
+            /* Reduce scale effect on mobile */
+            .mind-card:hover {
+                transform: scale(1.02);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mind-card {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .mind-card-content {
+                padding: 20px 16px;
+                gap: 12px;
+            }
+
+            .mind-avatar {
+                width: 90px;
+                height: 90px;
+                font-size: 2.5rem;
+            }
+
+            .mind-name {
+                font-size: var(--text-base);
+            }
+
+            .mind-role {
+                font-size: 0.75rem;
+            }
+
+            .mind-bio {
+                font-size: 0.75rem;
+            }
+
+            .mind-skills {
+                gap: 0.4rem;
+            }
+
+            .skill-tag {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .mind-social {
+                gap: 0.6rem;
+            }
+
+            .social-link svg {
+                width: 16px;
+                height: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Custom Cursor -->
+    <div class="custom-cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+        <div class="cursor-text"></div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="logo">
+                <div class="logo-triangle">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                        <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                        <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                    </svg>
+                </div>
+                <span class="logo-text">Power Trio</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="studio.html" class="nav-link">The Studio</a>
+                <a href="minds.html" class="nav-link active">The Minds</a>
+                <a href="work.html" class="nav-link">Work</a>
+                <a href="services.html" class="nav-link">Services</a>
+                <a href="insights.html" class="nav-link">Insights</a>
+                <a href="lab.html" class="nav-link">The Lab</a>
+                <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+
+            <a href="contact.html" class="cta-button magnetic">
+                <span>Work With Us</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                    <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </a>
+
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="minds-hero">
+        <div class="container">
+            <span class="section-label animate-in">The Power of Three</span>
+            <h1 class="section-title animate-in">Meet The Minds</h1>
+            <p class="section-description animate-in">
+                Three specialists. One unified vision. Infinite creative possibilities.
+            </p>
+        </div>
+    </section>
+
+    <!-- Minds Grid -->
+    <section class="section-padding">
+        <div class="container">
+            <div class="minds-grid">
+                <!-- Mind 1: Alex Chen -->
+                <article class="mind-card reveal">
+                    <div class="mind-card-content">
+                        <div class="mind-avatar magnetic" data-cursor="Alex Chen">
+                            AC
+                            <div class="status-indicator status-online" title="Online">
+                                <span>✓</span>
+                            </div>
+                        </div>
+
+                        <h2 class="mind-name">Alex Chen</h2>
+                        <p class="mind-role">Creative Director</p>
+
+                        <p class="mind-bio">
+                            Visionary designer with 10+ years crafting award-winning digital experiences.
+                            Obsessed with pixel-perfect details and user-centric design that tells stories.
+                        </p>
+
+                        <div class="mind-skills">
+                            <span class="skill-tag">UI/UX Design</span>
+                            <span class="skill-tag">Brand Identity</span>
+                            <span class="skill-tag">Design Systems</span>
+                            <span class="skill-tag">Figma Expert</span>
+                        </div>
+
+                        <div class="mind-social">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5zm-1.3-1.2c-1 2.3-2.6 3.6-4.6 4.5-1-1.8-2.1-3.4-3.3-4.8 1.2-.5 2.5-.8 3.9-.8 1.5 0 2.9.4 4 1.1z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="personality-reveal">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
+                            </h4>
+                            <div class="personality-item">
+                                <span class="personality-label">Coffee Order:</span>
+                                <span class="personality-value">Oat Milk Latte</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Design Tool:</span>
+                                <span class="personality-value">Figma</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Superpower:</span>
+                                <span class="personality-value">Pixel Perfection</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Inspiration:</span>
+                                <span class="personality-value">Nature & Architecture</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mind 2: Jordan Rivera -->
+                <article class="mind-card reveal">
+                    <div class="mind-card-content">
+                        <div class="mind-avatar magnetic" data-cursor="Jordan Rivera"
+                            style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            JR
+                            <div class="status-indicator status-busy" title="Busy">
+                                <span>⚡</span>
+                            </div>
+                        </div>
+
+                        <h2 class="mind-name">Jordan Rivera</h2>
+                        <p class="mind-role">Lead Developer</p>
+
+                        <p class="mind-bio">
+                            Full-stack wizard who turns complex problems into elegant code.
+                            Passionate about performance, scalability, and building systems that just work.
+                        </p>
+
+                        <div class="mind-skills">
+                            <span class="skill-tag">React/Next.js</span>
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">TypeScript</span>
+                            <span class="skill-tag">Cloud Architecture</span>
+                        </div>
+
+                        <div class="mind-social">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Twitter">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.92a8.18 8.18 0 01-2.36.65 4.12 4.12 0 001.8-2.27 8.22 8.22 0 01-2.6 1 4.1 4.1 0 00-6.99 3.74 11.65 11.65 0 01-8.46-4.29 4.1 4.1 0 001.27 5.47 4.07 4.07 0 01-1.86-.51v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="personality-reveal">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
+                            </h4>
+                            <div class="personality-item">
+                                <span class="personality-label">Coffee Order:</span>
+                                <span class="personality-value">Cold Brew, Black</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Code Editor:</span>
+                                <span class="personality-value">VS Code + Vim</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Superpower:</span>
+                                <span class="personality-value">Debugging Anything</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Inspiration:</span>
+                                <span class="personality-value">Open Source</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Mind 3: Sam Taylor -->
+                <article class="mind-card reveal">
+                    <div class="mind-card-content">
+                        <div class="mind-avatar magnetic" data-cursor="Sam Taylor"
+                            style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                            ST
+                            <div class="status-indicator status-break" title="Coffee Break">
+                                <span>☕</span>
+                            </div>
+                        </div>
+
+                        <h2 class="mind-name">Sam Taylor</h2>
+                        <p class="mind-role">Brand Strategist</p>
+
+                        <p class="mind-bio">
+                            Strategic thinker who transforms brands into movements.
+                            Expert in storytelling, market positioning, and creating authentic connections.
+                        </p>
+
+                        <div class="mind-skills">
+                            <span class="skill-tag">Brand Strategy</span>
+                            <span class="skill-tag">Content Strategy</span>
+                            <span class="skill-tag">Market Research</span>
+                            <span class="skill-tag">Copywriting</span>
+                        </div>
+
+                        <div class="mind-social">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Instagram">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 1.8c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4 1.1-.1 1.4-.1 4.1-.1M10 0C7.3 0 6.9 0 5.8.1c-1.1 0-1.9.3-2.6.6-.7.3-1.3.7-1.9 1.3S.6 3 .3 3.7C.1 4.4-.1 5.2.1 6.3 0 7.4 0 7.8 0 10.5s0 3.1.1 4.2c0 1.1.3 1.9.6 2.6.3.7.7 1.3 1.3 1.9s1.2 1 1.9 1.3c.7.3 1.5.5 2.6.6 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c1.1 0 1.9-.3 2.6-.6.7-.3 1.3-.7 1.9-1.3s1-1.2 1.3-1.9c.3-.7.5-1.5.6-2.6.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c0-1.1-.3-1.9-.6-2.6-.3-.7-.7-1.3-1.3-1.9S16 .6 15.3.3C14.6.1 13.8-.1 12.7.1 11.6 0 11.2 0 10 0z" />
+                                    <path
+                                        d="M10 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3S8.2 6.7 10 6.7s3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" />
+                                    <circle cx="15.3" cy="4.7" r="1.2" />
+                                </svg>
+                            </a>
+                        </div>
+
+                        <div class="personality-reveal">
+                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
+                            </h4>
+                            <div class="personality-item">
+                                <span class="personality-label">Coffee Order:</span>
+                                <span class="personality-value">Cappuccino</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Favorite Tool:</span>
+                                <span class="personality-value">Notion</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Superpower:</span>
+                                <span class="personality-value">Storytelling</span>
+                            </div>
+                            <div class="personality-item">
+                                <span class="personality-label">Inspiration:</span>
+                                <span class="personality-value">Human Psychology</span>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-main">
+                <div class="footer-brand">
+                    <div class="logo-triangle">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                            <circle cx="50" cy="40" r="3" class="dot dot-1" />
+                            <circle cx="35" cy="65" r="3" class="dot dot-2" />
+                            <circle cx="65" cy="65" r="3" class="dot dot-3" />
+                        </svg>
+                    </div>
+                    <h3>Power Trio</h3>
+                    <p>Three minds, one vision.<br>Building the future of digital.</p>
+                </div>
+
+                <div class="footer-social-grid">
+                    <div class="footer-member">
+                        <h4>Alex Chen</h4>
+                        <p class="member-role">Creative Director</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Jordan Rivera</h4>
+                        <p class="member-role">Lead Developer</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="GitHub">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Twitter">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.92a8.18 8.18 0 01-2.36.65 4.12 4.12 0 001.8-2.27 8.22 8.22 0 01-2.6 1 4.1 4.1 0 00-6.99 3.74 11.65 11.65 0 01-8.46-4.29 4.1 4.1 0 001.27 5.47 4.07 4.07 0 01-1.86-.51v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-member">
+                        <h4>Sam Taylor</h4>
+                        <p class="member-role">Brand Strategist</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5z" />
+                                </svg>
+                            </a>
+                            <a href="#" class="social-link magnetic" aria-label="Instagram">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
+                                    <path
+                                        d="M10 1.8c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4 1.1-.1 1.4-.1 4.1-.1M10 0C7.3 0 6.9 0 5.8.1c-1.1 0-1.9.3-2.6.6-.7.3-1.3.7-1.9 1.3S.6 3 .3 3.7C.1 4.4-.1 5.2.1 6.3 0 7.4 0 7.8 0 10.5s0 3.1.1 4.2c0 1.1.3 1.9.6 2.6.3.7.7 1.3 1.3 1.9s1.2 1 1.9 1.3c.7.3 1.5.5 2.6.6 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c1.1 0 1.9-.3 2.6-.6.7-.3 1.3-.7 1.9-1.3s1-1.2 1.3-1.9c.3-.7.5-1.5.6-2.6.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c0-1.1-.3-1.9-.6-2.6-.3-.7-.7-1.3-1.3-1.9S16 .6 15.3.3C14.6.1 13.8-.1 12.7.1 11.6 0 11.2 0 10 0z" />
+                                    <path
+                                        d="M10 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3S8.2 6.7 10 6.7s3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" />
+                                    <circle cx="15.3" cy="4.7" r="1.2" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <div class="footer-links">
+                    <a href="studio.html">About</a>
+                    <a href="services.html">Services</a>
+                    <a href="#">Privacy</a>
+                    <a href="#">Terms</a>
+                </div>
+                <p class="copyright">© 2026 Power Trio. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI Chatbot -->
+    <div class="chatbot" id="chatbot">
+        <button class="chatbot-toggle magnetic" id="chatbot-toggle" aria-label="Toggle chatbot">
+            <svg class="icon-chat" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" />
+            </svg>
+            <svg class="icon-close" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <line x1="18" y1="6" x2="6" y2="18" stroke-width="2" />
+                <line x1="6" y1="6" x2="18" y2="18" stroke-width="2" />
+            </svg>
+        </button>
+
+        <div class="chatbot-window glass-card" id="chatbot-window">
+            <div class="chatbot-header">
+                <div class="chatbot-avatar">
+                    <div class="logo-triangle small">
+                        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                            <polygon points="50,10 90,80 10,80" class="triangle-shape" />
+                        </svg>
+                    </div>
+                </div>
+                <div class="chatbot-info">
+                    <h4>Power Trio AI</h4>
+                    <span class="chatbot-status">
+                        <span class="status-dot"></span>
+                        Online
+                    </span>
+                </div>
+            </div>
+
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        Hey there! 👋 I'm the Power Trio AI assistant. How can I help you today?
+                    </div>
+                    <div class="message-time">Just now</div>
+                </div>
+            </div>
+
+            <div class="chatbot-input">
+                <input type="text" id="chatbot-input-field" placeholder="Type your message..." />
+                <button class="chatbot-send magnetic" id="chatbot-send" aria-label="Send message">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor">
+                        <path d="M19 1L9 11M19 1l-6 18-4-8-8-4 18-6z" stroke-width="2" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/cursor.js"></script>
+    <script src="../js/animations.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script src="../js/main.js"></script>
+
+    <!-- Mobile card interaction script -->
+    <script>
+        // Handle mobile tap to show personality section
+        document.addEventListener('DOMContentLoaded', function () {
+            const mindCards = document.querySelectorAll('.mind-card');
+
+            mindCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    // Only on mobile/tablet
+                    if (window.innerWidth <= 768) {
+                        // Toggle active class
+                        const isActive = this.classList.contains('active');
+
+                        // Remove active from all cards
+                        mindCards.forEach(c => c.classList.remove('active'));
+
+                        // Add active to clicked card if it wasn't active
+                        if (!isActive) {
+                            this.classList.add('active');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
