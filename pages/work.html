@@ -229,9 +229,94 @@
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
         }
 
+        /* Mobile Responsive Styles */
+        @media (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-lg);
+            }
+
+            .project-card {
+                height: 450px;
+            }
+        }
+
         @media (max-width: 768px) {
             .projects-grid {
                 grid-template-columns: 1fr;
+                gap: var(--spacing-md);
+                padding: 0 var(--spacing-md);
+            }
+
+            .project-card {
+                height: 400px;
+            }
+
+            .project-card-back {
+                padding: 1.5rem;
+            }
+
+            .project-card-back h3 {
+                font-size: var(--text-2xl);
+                margin-bottom: 0.75rem;
+            }
+
+            .project-card-back p {
+                font-size: var(--text-sm);
+                margin-bottom: 1rem;
+            }
+
+            .project-tags {
+                gap: 0.4rem;
+                margin-bottom: 1rem;
+            }
+
+            .project-tag {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            /* On mobile, tap to flip */
+            .project-card.flipped .project-card-inner {
+                transform: rotateY(180deg);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .project-card {
+                height: 350px;
+            }
+
+            .project-thumbnail {
+                height: 200px;
+            }
+
+            .project-card-back {
+                padding: 1.25rem;
+            }
+
+            .project-card-back h3 {
+                font-size: var(--text-xl);
+                margin-bottom: 0.5rem;
+            }
+
+            .project-card-back p {
+                font-size: 0.8rem;
+                line-height: 1.5;
+            }
+
+            .project-tags {
+                gap: 0.3rem;
+            }
+
+            .project-tag {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.65rem;
+            }
+
+            .btn-outline {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -714,6 +799,29 @@
                         setTimeout(() => item.classList.add('reveal', 'active'), 10);
                     } else {
                         item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Mobile tap-to-flip functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const projectCards = document.querySelectorAll('.project-card');
+
+            projectCards.forEach(card => {
+                card.addEventListener('click', function (e) {
+                    // Only on mobile/tablet
+                    if (window.innerWidth <= 768) {
+                        // Toggle flipped class
+                        const isFlipped = this.classList.contains('flipped');
+
+                        // Remove flipped from all cards
+                        projectCards.forEach(c => c.classList.remove('flipped'));
+
+                        // Add flipped to clicked card if it wasn't flipped
+                        if (!isFlipped) {
+                            this.classList.add('flipped');
+                        }
                     }
                 });
             });

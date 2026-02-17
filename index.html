@@ -19,6 +19,286 @@
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="stylesheet" href="css/components.css">
+
+    <style>
+        /* Animated Button Styles */
+        .animated-button {
+            --primary: #ff5569;
+            --neutral-1: #f7f8f7;
+            --neutral-2: #e7e7e7;
+            --radius: 14px;
+
+            cursor: pointer;
+            border-radius: var(--radius);
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+            border: none;
+            box-shadow: 0 0.5px 0.5px 1px rgba(255, 255, 255, 0.2),
+                0 10px 20px rgba(0, 0, 0, 0.2), 0 4px 5px 0px rgba(0, 0, 0, 0.05);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            padding: 20px;
+            height: 68px;
+            font-family: "Plus Jakarta Sans", Poppins, Montserrat, sans-serif;
+            font-style: normal;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .animated-button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+        }
+
+        .animated-button:active {
+            transform: scale(1);
+            box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+                0 10px 3px -3px rgba(0, 0, 0, 0.2);
+        }
+
+        .animated-button:after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius);
+            border: 2.5px solid transparent;
+            background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45)) border-box;
+            z-index: 0;
+            transition: all 0.4s ease;
+        }
+
+        .animated-button:hover::after {
+            transform: scale(1.05, 1.1);
+            box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
+        }
+
+        .animated-button::before {
+            content: "";
+            inset: 7px 6px 6px 6px;
+            position: absolute;
+            background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+            border-radius: 30px;
+            filter: blur(0.5px);
+            z-index: 2;
+        }
+
+        /* Outline */
+        .outline {
+            position: absolute;
+            border-radius: inherit;
+            overflow: hidden;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            inset: -2px -3.5px;
+        }
+
+        .outline::before {
+            content: "";
+            position: absolute;
+            inset: -100%;
+            background: conic-gradient(from 180deg,
+                    transparent 60%,
+                    white 80%,
+                    transparent 100%);
+            animation: spin 2s linear infinite;
+            animation-play-state: paused;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animated-button:hover .outline {
+            opacity: 1;
+        }
+
+        .animated-button:hover .outline::before {
+            animation-play-state: running;
+        }
+
+        /* Letters */
+        .state p {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        .state p span {
+            display: block;
+            opacity: 0;
+            animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+            color: #1a1a1a;
+        }
+
+        .animated-button:hover .state p span {
+            opacity: 1;
+            animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+        }
+
+        @keyframes wave {
+            30% {
+                opacity: 1;
+                transform: translateY(4px) translateX(0) rotate(0);
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-3px) translateX(0) rotate(0);
+                color: var(--primary);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(0);
+            }
+        }
+
+        @keyframes slideDown {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) translateX(5px) rotate(-90deg);
+                color: #1a1a1a;
+                filter: blur(5px);
+            }
+
+            30% {
+                opacity: 1;
+                transform: translateY(4px) translateX(0) rotate(0);
+                filter: blur(0);
+                color: #1a1a1a;
+            }
+
+            50% {
+                opacity: 1;
+                transform: translateY(-3px) translateX(0) rotate(0);
+                color: #1a1a1a;
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) translateX(0) rotate(0);
+                color: #1a1a1a;
+            }
+        }
+
+        /* Icon */
+        .state .icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            margin: auto;
+            transform: scale(1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+        }
+
+        .animated-button:hover .state .icon {
+            transform: rotate(45deg) scale(1);
+        }
+
+        /* States */
+        .state {
+            padding-left: 35px;
+            z-index: 2;
+            display: flex;
+            position: relative;
+            align-items: center;
+        }
+
+        /* Morphing Text Effect */
+        .morphing-container {
+            position: relative;
+            display: inline-block;
+            height: 1.2em;
+            /* Ensure height matches line-height */
+            width: 100%;
+            overflow: visible;
+            vertical-align: bottom;
+            /* Align with previous lines */
+            filter: url('#threshold') blur(0px);
+            /* Threshold filter for gooey effect if desired, or simpler blur */
+        }
+
+        .morph-word {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: block;
+            opacity: 0;
+            font-weight: 800;
+            background: linear-gradient(90deg, #667eea, #764ba2, #f5576c, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: gradient-shift 5s ease infinite;
+            filter: blur(8px);
+            transform: translateY(20px) scale(0.9);
+            transition: opacity 0.4s ease, filter 0.4s ease, transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
+        }
+
+        /* Active State */
+        .morph-word.active {
+            opacity: 1;
+            filter: blur(0px);
+            transform: translateY(0) scale(1);
+        }
+
+        /* Exiting State */
+        .morph-word.exit {
+            opacity: 0;
+            filter: blur(8px);
+            transform: translateY(-20px) scale(0.9);
+        }
+
+        /* Gradient Animation for the text */
+        @keyframes gradient-shift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+
+    <!-- SVG Filter for potential advanced morphing (optional but good to have) -->
+    <svg style="display: none;">
+        <defs>
+            <filter id="threshold">
+                <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 255 -140" />
+            </filter>
+        </defs>
+        </style>
 </head>
 
 <body>
@@ -87,7 +367,13 @@
             <h1 class="hero-title animate-in">
                 <span class="line">Three Minds.</span>
                 <span class="line">One Vision.</span>
-                <span class="line gradient-text">Infinite Possibilities.</span>
+                <!-- Morphing Text Container -->
+                <div class="morphing-container" id="morphingContainer">
+                    <span class="morph-word">Infinite Possibilities.</span>
+                    <span class="morph-word">Limitless Creativity.</span>
+                    <span class="morph-word">Digital Excellence.</span>
+                    <span class="morph-word">Future Ready.</span>
+                </div>
             </h1>
 
             <p class="hero-description animate-in">
@@ -96,13 +382,27 @@
             </p>
 
             <div class="hero-cta animate-in">
-                <a href="pages/work.html" class="btn-primary magnetic">
-                    <span>View Our Work</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
+                <a href="pages/work.html" class="animated-button">
+                    <div class="outline"></div>
+                    <div class="state">
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <p>
+                            <span style="--i:0">V</span><span style="--i:1">i</span><span style="--i:2">e</span><span
+                                style="--i:3">w</span>
+                            <span style="--i:4"> </span>
+                            <span style="--i:5">O</span><span style="--i:6">u</span><span style="--i:7">r</span>
+                            <span style="--i:8"> </span>
+                            <span style="--i:9">W</span><span style="--i:10">o</span><span style="--i:11">r</span><span
+                                style="--i:12">k</span>
+                        </p>
+                    </div>
                 </a>
-                <a href="pages/contact.html" class="btn-secondary magnetic">
+                <a href="pages/contact.html" class="btn-secondary">
                     <span>Start a Project</span>
                 </a>
             </div>
@@ -393,6 +693,43 @@
     <script src="js/animations.js"></script>
     <script src="js/chatbot.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- Morphing Text Animation Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const words = document.querySelectorAll('.morph-word');
+            let currentIndex = 0;
+            const intervalTime = 3000; // Change every 3 seconds
+
+            if (words.length > 0) {
+                // Initialize first word
+                words[currentIndex].classList.add('active');
+
+                setInterval(() => {
+                    const currentWord = words[currentIndex];
+                    const nextIndex = (currentIndex + 1) % words.length;
+                    const nextWord = words[nextIndex];
+
+                    // Transition out current word
+                    currentWord.classList.remove('active');
+                    currentWord.classList.add('exit');
+
+                    // After transition (matching CSS duration), clean up classes
+                    setTimeout(() => {
+                        currentWord.classList.remove('exit');
+                    }, 400); // Match CSS transition duration
+
+                    // Transition in next word
+                    // Small delay to allow exit to start visually
+                    setTimeout(() => {
+                        nextWord.classList.add('active');
+                    }, 50);
+
+                    currentIndex = nextIndex;
+                }, intervalTime);
+            }
+        });
+    </script>
 </body>
 
 </html>
