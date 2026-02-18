@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Power Trio - A collective of three creative minds building exceptional digital experiences">
-    <title>Power Trio Studio | Award-Winning Digital Agency</title>
+    <meta name="description" content="FortuMars AI - Future-Ready Business Solutions and Digital Transformation">
+    <title>FortuMars AI | Future-Ready Business Solutions</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -321,7 +320,206 @@
                       0 0 0 255 -140" />
             </filter>
         </defs>
-        </style>
+        }
+
+        /* Editorial Portfolio Styles for Homepage */
+        .featured-work {
+        position: relative;
+        background: linear-gradient(180deg, var(--color-bg-primary) 0%, #0f1219 100%);
+        overflow: hidden;
+        }
+
+        /* Ambient Glow Background */
+        .featured-work::before {
+        content: '';
+        position: absolute;
+        top: 20%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 800px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+        z-index: 0;
+        pointer-events: none;
+        }
+
+        .section-header {
+        position: relative;
+        z-index: 2;
+        margin-bottom: 5rem;
+        }
+
+        .section-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        background: linear-gradient(to right, #fff, #94a3b8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+        }
+
+        /* FORCE DESKTOP GRID STYLES (768px+) */
+        @media (min-width: 768px) {
+        .projects-grid {
+        display: grid !important;
+        grid-template-columns: repeat(12, 1fr) !important;
+        grid-auto-rows: 380px !important;
+        gap: 2rem !important;
+        margin-bottom: 4rem;
+        grid-auto-flow: dense !important;
+        position: relative;
+        z-index: 2;
+        }
+
+        .project-card {
+        height: 100% !important; /* Force fill grid cell */
+        border-radius: 24px;
+        overflow: hidden;
+        position: relative;
+        cursor: pointer;
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.08); /* Subtle border */
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3); /* Deep shadow */
+        transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+        }
+
+        .project-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 30px 60px rgba(99, 102, 241, 0.15); /* Glow on hover */
+        border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .project-card.featured {
+        grid-column: span 12 !important;
+        grid-row: span 2 !important;
+        }
+
+        .project-card.tall {
+        grid-column: span 6 !important; /* Adjusted for tablet/desktop balance */
+        grid-row: span 2 !important;
+        }
+
+        /* On larger screens, revert Tall to 4 columns */
+        @media (min-width: 1200px) {
+        .project-card.tall {
+        grid-column: span 4 !important;
+        }
+        }
+
+        .project-card.wide {
+        grid-column: span 6 !important; /* Adjusted for tablet/desktop balance */
+        grid-row: span 1 !important;
+        }
+
+        /* On larger screens, revert Wide to 8 columns */
+        @media (min-width: 1200px) {
+        .project-card.wide {
+        grid-column: span 8 !important;
+        }
+        }
+        }
+
+        /* Stylings for all breakpoints */
+        .project-media {
+        width: 100%;
+        height: 100%;
+        transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-media img,
+        .project-media video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        }
+
+        .project-card:hover .project-media {
+        transform: scale(1.08);
+        }
+
+        .project-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 2.5rem;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.6) 50%, transparent 100%);
+        transform: translateY(20px);
+        opacity: 0;
+        transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+        z-index: 2;
+        }
+
+        .project-card:hover .project-info,
+        .project-card.featured .project-info {
+        transform: translateY(0);
+        opacity: 1;
+        }
+
+        .project-category {
+        display: inline-block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: #d4a5ec;
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+        background: rgba(99, 102, 241, 0.15);
+        padding: 4px 12px;
+        border-radius: 100px;
+        border: 1px solid rgba(99, 102, 241, 0.2);
+        backdrop-filter: blur(4px);
+        }
+
+        .project-title {
+        font-size: 2rem;
+        font-weight: 800;
+        /* Extra bold */
+        margin-bottom: 0.5rem;
+        color: white;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        }
+
+        .project-card.featured .project-title {
+        font-size: 3.5rem;
+        }
+
+        /* Mobile/Tablet Fallback */
+        @media (max-width: 1023px) {
+        .projects-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        position: relative;
+        z-index: 2;
+        }
+
+        .project-card {
+        width: 100%;
+        height: 450px;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-title {
+        font-size: 2rem;
+        }
+
+        .project-card.featured .project-title {
+        font-size: 2.5rem;
+        }
+
+        .project-info {
+        transform: translateY(0);
+        opacity: 1;
+        padding: 1.5rem;
+        }
+        }
+    </svg>
 </head>
 
 <body>
@@ -345,22 +543,21 @@
                         <circle cx="65" cy="65" r="3" class="dot dot-3" />
                     </svg>
                 </div>
-                <span class="logo-text">Power Trio</span>
+                <span class="logo-text">FortuMars AI</span>
             </a>
 
             <div class="nav-links">
                 <a href="index.html" class="nav-link active">Home</a>
-                <a href="pages/studio.html" class="nav-link">The Studio</a>
-                <a href="pages/minds.html" class="nav-link">The Minds</a>
-                <a href="pages/work.html" class="nav-link">Work</a>
+                <a href="pages/studio.html" class="nav-link">About Us</a>
                 <a href="pages/services.html" class="nav-link">Services</a>
-                <a href="pages/insights.html" class="nav-link">Insights</a>
-                <a href="pages/lab.html" class="nav-link">The Lab</a>
+                <a href="pages/product.html" class="nav-link">Product</a>
+                <a href="pages/work.html" class="nav-link">Portfolio</a>
+                <a href="pages/insights.html" class="nav-link">Blog</a>
                 <a href="pages/contact.html" class="nav-link">Contact</a>
             </div>
 
             <a href="pages/contact.html" class="cta-button magnetic" data-page="home">
-                <span>Hire the Trio</span>
+                <span>Contact Us</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                     <path d="M1 8h14M9 2l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                 </svg>
@@ -385,28 +582,28 @@
         <div class="hero-content">
             <div class="hero-badge animate-in">
                 <span class="status-dot"></span>
-                <span>Available for new projects</span>
+                <span>Future-Ready Solutions</span>
             </div>
 
             <h1 class="hero-title animate-in">
-                <span class="line">Three Minds.</span>
-                <span class="line">One Vision.</span>
+                <span class="line">FortuMars AI.</span>
+                <span class="line">Business Intelligence.</span>
                 <!-- Morphing Text Container -->
                 <div class="morphing-container" id="morphingContainer">
-                    <span class="morph-word">Infinite Possibilities.</span>
-                    <span class="morph-word">Limitless Creativity.</span>
-                    <span class="morph-word">Digital Excellence.</span>
-                    <span class="morph-word">Future Ready.</span>
+                    <span class="morph-word">AI Technologies.</span>
+                    <span class="morph-word">ERP Solutions.</span>
+                    <span class="morph-word">CRM Systems.</span>
+                    <span class="morph-word">Digital Growth.</span>
                 </div>
             </h1>
 
             <p class="hero-description animate-in">
-                We're a collective of designers, developers, and strategists crafting
-                <span class="highlight">award-winning digital experiences</span> that drive results.
+                Facilitating digital transformation with
+                <span class="highlight">custom AI, Software, and Business Solutions</span> for global enterprises.
             </p>
 
             <div class="hero-cta animate-in">
-                <a href="pages/work.html" class="animated-button">
+                <a href="pages/services.html" class="animated-button">
                     <div class="outline"></div>
                     <div class="state">
                         <div class="icon">
@@ -416,38 +613,36 @@
                             </svg>
                         </div>
                         <p>
-                            <span style="--i:0">V</span><span style="--i:1">i</span><span style="--i:2">e</span><span
-                                style="--i:3">w</span>
-                            <span style="--i:4"> </span>
-                            <span style="--i:5">O</span><span style="--i:6">u</span><span style="--i:7">r</span>
-                            <span style="--i:8"> </span>
-                            <span style="--i:9">W</span><span style="--i:10">o</span><span style="--i:11">r</span><span
-                                style="--i:12">k</span>
+                            <span style="--i:0">O</span><span style="--i:1">u</span><span style="--i:2">r</span>
+                            <span style="--i:3"> </span>
+                            <span style="--i:4">S</span><span style="--i:5">e</span><span style="--i:6">r</span><span
+                                style="--i:7">v</span><span style="--i:8">i</span><span style="--i:9">c</span><span
+                                style="--i:10">e</span><span style="--i:11">s</span>
                         </p>
                     </div>
                 </a>
                 <a href="pages/contact.html" class="btn-secondary">
-                    <span>Start a Project</span>
+                    <span>Contact Us</span>
                 </a>
             </div>
 
             <!-- Collective Stats -->
             <div class="stats-grid animate-in">
                 <div class="stat-card glass-card">
-                    <div class="stat-number" data-target="127">0</div>
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Clients Worldwide</div>
+                </div>
+                <div class="stat-card glass-card">
+                    <div class="stat-number" data-target="300">0</div>
                     <div class="stat-label">Projects Delivered</div>
                 </div>
                 <div class="stat-card glass-card">
-                    <div class="stat-number" data-target="43">0</div>
-                    <div class="stat-label">Happy Clients</div>
+                    <div class="stat-number" data-target="4">0</div>
+                    <div class="stat-label">Global Offices</div>
                 </div>
                 <div class="stat-card glass-card">
-                    <div class="stat-number" data-target="15">0</div>
-                    <div class="stat-label">Awards Won</div>
-                </div>
-                <div class="stat-card glass-card">
-                    <div class="stat-number" data-target="3">0</div>
-                    <div class="stat-label">Creative Minds</div>
+                    <div class="stat-number" data-target="98">0</div>
+                    <div class="stat-label">% Satisfaction</div>
                 </div>
             </div>
         </div>
@@ -469,83 +664,77 @@
                 </p>
             </div>
 
-            <div class="work-grid">
-                <article class="work-card glass-card magnetic" data-project="nebula">
-                    <div class="work-image">
-                        <img class="work-image-placeholder"
-                            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
-                            alt="Nebula Finance" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="work-overlay">
-                            <a href="pages/case-study.html" class="work-link">View Case Study</a>
-                        </div>
+            <div class="projects-grid">
+                <!-- Featured (Span 12) -->
+                <article class="project-card featured reveal" onclick="window.location.href='pages/work.html'">
+                    <div class="project-media">
+                        <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=1600&h=900&fit=crop"
+                            alt="Nebula AI">
                     </div>
-                    <div class="work-content">
-                        <div class="work-meta">
-                            <span class="work-category">Web Design</span>
-                            <span class="work-year">2026</span>
-                        </div>
-                        <h3 class="work-title">Nebula Finance</h3>
-                        <p class="work-description">A revolutionary fintech platform with AI-powered insights</p>
-                        <div class="work-team">
-                            <span class="team-label">Led by:</span>
-                            <span class="team-member">Alex Chen</span>
-                        </div>
+                    <div class="project-info">
+                        <div class="project-category">Featured Case Study</div>
+                        <h2 class="project-title">Nebula AI Intelligence</h2>
+                        <p style="color: rgba(255,255,255,0.8); max-width: 600px;">
+                            Redefining enterprise AI with transparency and control.
+                        </p>
                     </div>
                 </article>
 
-                <article class="work-card glass-card magnetic" data-project="quantum">
-                    <div class="work-image">
-                        <img class="work-image-placeholder"
-                            src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=600&fit=crop"
-                            alt="Quantum Labs" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="work-overlay">
-                            <a href="pages/case-study.html" class="work-link">View Case Study</a>
-                        </div>
+                <!-- Tall (Span 4) -->
+                <article class="project-card tall reveal" onclick="window.location.href='pages/work.html'">
+                    <div class="project-media">
+                        <img src="https://images.unsplash.com/photo-1616469829581-73993eb86b02?w=800&h=1200&fit=crop"
+                            alt="Aurora Mobile">
                     </div>
-                    <div class="work-content">
-                        <div class="work-meta">
-                            <span class="work-category">Brand Identity</span>
-                            <span class="work-year">2026</span>
-                        </div>
-                        <h3 class="work-title">Quantum Labs</h3>
-                        <p class="work-description">Complete rebrand for a cutting-edge research facility</p>
-                        <div class="work-team">
-                            <span class="team-label">Led by:</span>
-                            <span class="team-member">Jordan Rivera</span>
-                        </div>
+                    <div class="project-info">
+                        <div class="project-category">Mobile Experience</div>
+                        <h2 class="project-title">Aurora Health</h2>
                     </div>
                 </article>
 
-                <article class="work-card glass-card magnetic" data-project="aurora">
-                    <div class="work-image">
-                        <img class="work-image-placeholder"
-                            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop"
-                            alt="Aurora Health" style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="work-overlay">
-                            <a href="pages/case-study.html" class="work-link">View Case Study</a>
-                        </div>
+                <!-- Wide (Span 8) -->
+                <article class="project-card wide reveal" onclick="window.location.href='pages/work.html'">
+                    <div class="project-media">
+                        <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?w=1200&h=600&fit=crop"
+                            alt="Quantum Labs">
                     </div>
-                    <div class="work-content">
-                        <div class="work-meta">
-                            <span class="work-category">Mobile App</span>
-                            <span class="work-year">2025</span>
-                        </div>
-                        <h3 class="work-title">Aurora Health</h3>
-                        <p class="work-description">Wellness app connecting users with personalized care</p>
-                        <div class="work-team">
-                            <span class="team-label">Led by:</span>
-                            <span class="team-member">Sam Taylor</span>
-                        </div>
+                    <div class="project-info">
+                        <div class="project-category">Brand Identity</div>
+                        <h2 class="project-title">Quantum Labs</h2>
+                    </div>
+                </article>
+                <!-- Wide (Span 8) -->
+                <article class="project-card wide reveal" onclick="window.location.href='pages/work.html'">
+                    <div class="project-media">
+                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=600&fit=crop"
+                            alt="Luxe Boutique">
+                    </div>
+                    <div class="project-info">
+                        <div class="project-category">E-Commerce</div>
+                        <h2 class="project-title">Luxe Boutique</h2>
                     </div>
                 </article>
             </div>
 
             <div class="section-cta">
-                <a href="pages/work.html" class="btn-outline magnetic">
-                    <span>View All Projects</span>
-                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                        <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
+                <a href="pages/work.html" class="animated-button">
+                    <div class="outline"></div>
+                    <div class="state">
+                        <div class="icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <p>
+                            <span style="--i:0">V</span><span style="--i:1">i</span><span style="--i:2">e</span><span
+                                style="--i:3">w</span>
+                            <span style="--i:4"> </span>
+                            <span style="--i:5">P</span><span style="--i:6">o</span><span style="--i:7">r</span><span
+                                style="--i:8">t</span><span style="--i:9">f</span><span style="--i:10">o</span><span
+                                style="--i:11">l</span><span style="--i:12">i</span><span style="--i:13">o</span>
+                        </p>
+                    </div>
                 </a>
             </div>
         </div>
@@ -564,85 +753,26 @@
                             <circle cx="65" cy="65" r="3" class="dot dot-3" />
                         </svg>
                     </div>
-                    <h3>Power Trio</h3>
-                    <p>Three minds, one vision.<br>Building the future of digital.</p>
+                    <h3>FortuMars AI</h3>
+                    <p>Building the future with intelligent<br>business solutions.</p>
                 </div>
 
                 <!-- Three Social Columns -->
+                <!-- Socials -->
                 <div class="footer-social-grid">
                     <div class="footer-member">
-                        <h4>Alex Chen</h4>
-                        <p class="member-role">Creative Director</p>
+                        <h4>Socials</h4>
                         <div class="social-links">
                             <a href="#" class="social-link magnetic" aria-label="LinkedIn">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                                     <path
                                         d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5zm-1.3-1.2c-1 2.3-2.6 3.6-4.6 4.5-1-1.8-2.1-3.4-3.3-4.8 1.2-.5 2.5-.8 3.9-.8 1.5 0 2.9.4 4 1.1zM5.5 4.3c1.2 1.4 2.3 3 3.3 4.8-2.5.7-5.3 1-8.2 1-.1-.5-.1-1-.1-1.5 0-1.8.6-3.4 1.6-4.7 1.1.5 2.3.9 3.4 1.4zm-3.9 7c3.1 0 6-.3 8.6-1 .1.3.3.6.4.9-2.8 1.2-5 3.4-6.3 6.3-1.5-1.3-2.5-3.1-2.7-5.2v-1zm4.9 6.5c1.2-2.7 3.2-4.8 5.8-6 .8 2.1 1.4 4.3 1.7 6.6-1.1.5-2.3.8-3.6.8-1.5 0-2.9-.5-4.1-1.4zm6.3.7c-.3-2.2-.9-4.3-1.6-6.3 1.7-.3 3.6-.3 5.7.1-.4 2.7-1.9 5-4.1 6.2z" />
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link magnetic" aria-label="GitHub">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="footer-member">
-                        <h4>Jordan Rivera</h4>
-                        <p class="member-role">Lead Developer</p>
-                        <div class="social-links">
-                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link magnetic" aria-label="GitHub">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M10 0C4.5 0 0 4.6 0 10.3c0 4.5 2.9 8.3 6.9 9.7.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.4-3.4-1.4-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.3 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.2-.4-1.2.1-2.5 0 0 .8-.3 2.7 1 .8-.2 1.6-.3 2.4-.3s1.6.1 2.4.3c1.9-1.3 2.7-1 2.7-1 .5 1.3.2 2.3.1 2.5.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9v2.8c0 .3.2.6.7.5 4-1.3 6.9-5.1 6.9-9.6C20 4.6 15.5 0 10 0z" />
                                 </svg>
                             </a>
                             <a href="#" class="social-link magnetic" aria-label="Twitter">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                                     <path
                                         d="M6.29 18.25c7.55 0 11.67-6.25 11.67-11.67 0-.18 0-.35-.01-.53A8.35 8.35 0 0020 3.92a8.18 8.18 0 01-2.36.65 4.12 4.12 0 001.8-2.27 8.22 8.22 0 01-2.6 1 4.1 4.1 0 00-6.99 3.74 11.65 11.65 0 01-8.46-4.29 4.1 4.1 0 001.27 5.47 4.07 4.07 0 01-1.86-.51v.05a4.1 4.1 0 003.29 4.02 4.1 4.1 0 01-1.85.07 4.1 4.1 0 003.83 2.85A8.23 8.23 0 010 16.4a11.62 11.62 0 006.29 1.84" />
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="footer-member">
-                        <h4>Sam Taylor</h4>
-                        <p class="member-role">Brand Strategist</p>
-                        <div class="social-links">
-                            <a href="#" class="social-link magnetic" aria-label="LinkedIn">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M16 0H4C1.8 0 0 1.8 0 4v12c0 2.2 1.8 4 4 4h12c2.2 0 4-1.8 4-4V4c0-2.2-1.8-4-4-4zM6 15H3V7h3v8zM4.5 5.7c-1 0-1.8-.8-1.8-1.8s.8-1.8 1.8-1.8 1.8.8 1.8 1.8-.8 1.8-1.8 1.8zM17 15h-3v-4c0-1.1-.9-2-2-2s-2 .9-2 2v4H7V7h3v1.2c.5-.8 1.6-1.4 2.5-1.4 1.9 0 3.5 1.6 3.5 3.5V15z" />
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link magnetic" aria-label="Dribbble">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5zm-1.3-1.2c-1 2.3-2.6 3.6-4.6 4.5-1-1.8-2.1-3.4-3.3-4.8 1.2-.5 2.5-.8 3.9-.8 1.5 0 2.9.4 4 1.1zM5.5 4.3c1.2 1.4 2.3 3 3.3 4.8-2.5.7-5.3 1-8.2 1-.1-.5-.1-1-.1-1.5 0-1.8.6-3.4 1.6-4.7 1.1.5 2.3.9 3.4 1.4zm-3.9 7c3.1 0 6-.3 8.6-1 .1.3.3.6.4.9-2.8 1.2-5 3.4-6.3 6.3-1.5-1.3-2.5-3.1-2.7-5.2v-1zm4.9 6.5c1.2-2.7 3.2-4.8 5.8-6 .8 2.1 1.4 4.3 1.7 6.6-1.1.5-2.3.8-3.6.8-1.5 0-2.9-.5-4.1-1.4zm6.3.7c-.3-2.2-.9-4.3-1.6-6.3 1.7-.3 3.6-.3 5.7.1-.4 2.7-1.9 5-4.1 6.2z" />
-                                </svg>
-                            </a>
-                            <a href="#" class="social-link magnetic" aria-label="Instagram">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
-                                    <path
-                                        d="M10 1.8c2.7 0 3 0 4.1.1 1 0 1.5.2 1.9.4.5.2.8.4 1.2.8.4.4.6.7.8 1.2.2.4.3.9.4 1.9.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c0 1-.2 1.5-.4 1.9-.2.5-.4.8-.8 1.2-.4.4-.7.6-1.2.8-.4.2-.9.3-1.9.4-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-1 0-1.5-.2-1.9-.4-.5-.2-.8-.4-1.2-.8-.4-.4-.6-.7-.8-1.2-.2-.4-.3-.9-.4-1.9-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c0-1 .2-1.5.4-1.9.2-.5.4-.8.8-1.2.4-.4.7-.6 1.2-.8.4-.2.9-.3 1.9-.4 1.1-.1 1.4-.1 4.1-.1M10 0C7.3 0 6.9 0 5.8.1c-1.1 0-1.9.3-2.6.6-.7.3-1.3.7-1.9 1.3S.6 3 .3 3.7C.1 4.4-.1 5.2.1 6.3 0 7.4 0 7.8 0 10.5s0 3.1.1 4.2c0 1.1.3 1.9.6 2.6.3.7.7 1.3 1.3 1.9s1.2 1 1.9 1.3c.7.3 1.5.5 2.6.6 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c1.1 0 1.9-.3 2.6-.6.7-.3 1.3-.7 1.9-1.3s1-1.2 1.3-1.9c.3-.7.5-1.5.6-2.6.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c0-1.1-.3-1.9-.6-2.6-.3-.7-.7-1.3-1.3-1.9S16 .6 15.3.3C14.6.1 13.8-.1 12.7.1 11.6 0 11.2 0 10 0z" />
-                                    <path
-                                        d="M10 4.9c-2.8 0-5.1 2.3-5.1 5.1s2.3 5.1 5.1 5.1 5.1-2.3 5.1-5.1-2.3-5.1-5.1-5.1zm0 8.4c-1.8 0-3.3-1.5-3.3-3.3S8.2 6.7 10 6.7s3.3 1.5 3.3 3.3-1.5 3.3-3.3 3.3z" />
-                                    <circle cx="15.3" cy="4.7" r="1.2" />
                                 </svg>
                             </a>
                         </div>
@@ -657,7 +787,7 @@
                     <a href="#">Privacy</a>
                     <a href="#">Terms</a>
                 </div>
-                <p class="copyright">© 2026 Power Trio. All rights reserved.</p>
+                <p class="copyright">© 2026 FortuMars AI. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -684,7 +814,7 @@
                     </div>
                 </div>
                 <div class="chatbot-info">
-                    <h4>Power Trio AI</h4>
+                    <h4>FortuMars AI</h4>
                     <span class="chatbot-status">
                         <span class="status-dot"></span>
                         Online
@@ -695,7 +825,7 @@
             <div class="chatbot-messages" id="chatbot-messages">
                 <div class="message bot-message">
                     <div class="message-content">
-                        Hey there! 👋 I'm the Power Trio AI assistant. How can I help you today?
+                        Hey there! 👋 I'm the FortuMars AI assistant. How can I help you today?
                     </div>
                     <div class="message-time">Just now</div>
                 </div>

@@ -146,50 +146,50 @@ class Chatbot {
     getResponses() {
         return {
             'hello|hi|hey': [
-                "Hey! 👋 Welcome to Power Trio. How can we help you today?",
-                "Hi there! Looking to start an amazing project?",
-                "Hello! Ready to create something extraordinary together?"
+                "Hey! 👋 Welcome to FortuMars AI. How can we help you today?",
+                "Hi there! Looking to transform your business with AI?",
+                "Hello! Ready to innovate with FortuMars AI solutions?"
             ],
             'price|cost|budget|quote': [
-                "Our pricing varies based on project scope. Would you like to schedule a consultation to discuss your specific needs?",
-                "Great question! Each project is unique. Let's chat about your requirements and we'll provide a custom quote.",
-                "We offer flexible pricing tailored to your needs. Click 'Get a Quote' to tell us more about your project!"
+                "Our pricing is tailored to your solution needs. Would you like to request a consultation?",
+                "Each enterprise solution is unique. Let's discuss your requirements for a custom quote.",
+                "We offer competitive pricing for AI and software development. Click 'Get a Quote' to start the converstation!"
             ],
             'portfolio|work|projects': [
-                "Check out our Work page to see our latest projects! We've delivered 127+ successful projects across various industries.",
-                "We'd love to show you our work! Head to the Work section to explore our case studies.",
-                "Our portfolio showcases projects in web design, branding, and mobile apps. What type of work interests you?"
+                "Check out our Portfolio page to see our latest innovations! We've delivered scalable solutions globally.",
+                "We'd love to show you our success stories! Head to the Portfolio section to explore our case studies.",
+                "Our portfolio showcases AI dashboards, ERM systems, and mobile apps. What type of solution interests you?"
             ],
             'team|who|members': [
-                "We're a trio of specialists: Alex (Creative Director), Jordan (Lead Developer), and Sam (Brand Strategist). Visit 'The Minds' page to learn more!",
-                "Power Trio consists of three expert minds working in perfect sync. Want to meet the team?",
-                "Our team brings together design, development, and strategy expertise. Check out 'The Minds' page!"
+                "We are a global team of AI specialists, software engineers, and business strategists. Visit 'About Us' to learn more!",
+                "FortuMars AI consists of expert teams working across the UK, India, and UAE. Want to know more?",
+                "Our team brings together AI, ERP, and CRM expertise. Check out our 'About Us' page!"
             ],
             'contact|email|call|reach': [
-                "You can reach us through our Contact page, or email us directly. Each team member has their contact info in the footer!",
-                "Let's connect! Visit our Contact page to send us a message or schedule a call.",
-                "We'd love to hear from you! Head to the Contact page to get in touch."
+                "You can reach us through our Contact page, or email our support team directly.",
+                "Let's connect! Visit our Contact page to send us a message or schedule a demo.",
+                "We'd love to hear from you! Head to the Contact page to get in touch with our global offices."
             ],
             'services|what|do': [
-                "We specialize in web design, brand identity, and mobile app development. Check out our Services page for details!",
-                "Our three-pillar service model covers Design, Development, and Strategy. Want to learn more?",
-                "We offer comprehensive digital solutions. Visit our Services page to see how we can help!"
+                "We specialize in AI Agents, CRM/ERP Systems, App Development, and Business Intelligence. Check out our Services page!",
+                "Our services cover AI Innovation, Software Development, and Digital Strategy. Want to learn more?",
+                "We offer comprehensive digital transformation solutions. Visit our Services page to see how we can help!"
             ],
             'time|timeline|how long': [
-                "Project timelines vary from 2-12 weeks depending on scope. Let's discuss your specific needs!",
-                "We work efficiently without compromising quality. Typical projects range from 4-8 weeks.",
-                "Timeline depends on project complexity. We'll provide a detailed schedule during our consultation."
+                "Project timelines vary based on complexity. We prioritize agile delivery and quality.",
+                "We work efficiently to deploy solutions. Typical enterprise projects have phased rollouts.",
+                "Timeline depends on the scope. We'll provide a detailed roadmap during our consultation."
             ],
             'thanks|thank you': [
                 "You're welcome! Anything else I can help with?",
-                "Happy to help! Feel free to ask more questions.",
+                "Happy to help! Feel free to ask more questions about our AI solutions.",
                 "My pleasure! Let me know if you need anything else."
             ],
             'default': [
-                "That's a great question! For detailed information, I'd recommend checking out our website or contacting the team directly.",
-                "I'm here to help! Could you provide more details about what you're looking for?",
-                "Interesting! While I'm still learning, the team would love to discuss this with you. Want to get in touch?",
-                "I want to make sure I give you the best answer. Could you rephrase that or visit our Contact page to speak with the team?"
+                "That's a great question! For detailed information, I'd recommend checking out our website or contacting our team directly.",
+                "I'm here to assist! Could you provide more details about your business needs?",
+                "Interesting! While I'm still learning, our consultants would love to discuss this with you. Want to get in touch?",
+                "I want to make sure I give you the best answer. Could you rephrase that or visit our Contact page to speak with an expert?"
             ]
         };
     }
