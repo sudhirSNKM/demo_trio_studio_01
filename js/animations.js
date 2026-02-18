@@ -88,45 +88,62 @@ class AnimationController {
         updateCounter();
     }
 
-    // Parallax effect for background elements
+    // Parallax effect for background elements (Optimized)
     setupParallax() {
-        const parallaxElements = document.querySelectorAll('.parallax');
+        // Disable parallax on mobile/tablet for better performance and battery life
+        if (window.innerWidth < 900) return;
 
+        const parallaxElements = document.querySelectorAll('.parallax');
         if (parallaxElements.length === 0) return;
 
-        window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
+        // Use requestAnimationFrame for smooth 60fps scrolling
+        let ticking = false;
 
-            parallaxElements.forEach(el => {
-                const speed = el.getAttribute('data-speed') || 0.5;
-                const yPos = -(scrolled * speed);
-                el.style.transform = `translateY(${yPos}px)`;
-            });
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    parallaxElements.forEach(el => {
+                        const speed = el.getAttribute('data-speed') || 0.5;
+                        const yPos = -(scrolled * speed);
+                        el.style.transform = `translateY(${yPos}px)`;
+                    });
+                    ticking = false;
+                });
+                ticking = true;
+            }
         });
     }
 
-    // Navbar scroll effect
+    // Navbar scroll effect (Optimized)
     setupNavbarScroll() {
         const navbar = document.getElementById('navbar');
         let lastScroll = 0;
+        let ticking = false;
 
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const currentScroll = window.pageYOffset;
 
-            if (currentScroll > 100) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
+                    if (currentScroll > 100) {
+                        navbar.classList.add('scrolled');
+                    } else {
+                        navbar.classList.remove('scrolled');
+                    }
+
+                    // Hide navbar on scroll down, show on scroll up
+                    if (currentScroll > lastScroll && currentScroll > 500) {
+                        navbar.style.transform = 'translateY(-100%)';
+                    } else {
+                        navbar.style.transform = 'translateY(0)';
+                    }
+
+                    lastScroll = currentScroll <= 0 ? 0 : currentScroll;
+                    ticking = false;
+                });
+                ticking = true;
             }
-
-            // Hide navbar on scroll down, show on scroll up
-            if (currentScroll > lastScroll && currentScroll > 500) {
-                navbar.style.transform = 'translateY(-100%)';
-            } else {
-                navbar.style.transform = 'translateY(0)';
-            }
-
-            lastScroll = currentScroll;
         });
     }
 }
@@ -168,14 +185,14 @@ class PageTransitions {
     }
 
     init() {
-        // Fade in page on load
-        window.addEventListener('load', () => {
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                document.body.style.transition = 'opacity 0.5s ease';
-                document.body.style.opacity = '1';
-            }, 100);
-        });
+        // Fade in page on load (Disabled - handled by Preloader)
+        // window.addEventListener('load', () => {
+        //     document.body.style.opacity = '0';
+        //     setTimeout(() => {
+        //         document.body.style.transition = 'opacity 0.5s ease';
+        //         document.body.style.opacity = '1';
+        //     }, 100);
+        // });
 
         // Add loading class during navigation
         const links = document.querySelectorAll('a:not([target="_blank"])');

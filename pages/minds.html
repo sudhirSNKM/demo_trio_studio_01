@@ -21,7 +21,7 @@
     <style>
         /* Page-specific styles */
         .minds-hero {
-            min-height: 60vh;
+            min-height: 40vh;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -30,57 +30,210 @@
             position: relative;
         }
 
+        /* ACCORDION GRID LAYOUT (Desktop: Horizontal) */
         .minds-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--spacing-2xl);
-            margin-top: var(--spacing-3xl);
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            height: 600px;
+            /* Fixed height to allow flex growth */
+            margin: 0 auto;
+            gap: 10px;
+            align-items: stretch;
+            padding: 0 var(--spacing-md);
         }
 
+        /* CARD STYLES - The Accordion Item */
         .mind-card {
+            flex: 1;
+            /* Default: collapsed state */
             position: relative;
-            padding: var(--spacing-2xl);
-            text-align: center;
-            transition: all var(--transition-base);
+            background: var(--color-bg-secondary);
+            border-radius: 20px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: flex 0.6s cubic-bezier(0.25, 1, 0.5, 1), background 0.3s, border-color 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
+        /* EXPANDED STATE (Hover or Active) */
         .mind-card:hover {
-            transform: translateY(-10px);
+            flex: 4;
+            /* Expand significantly */
+            background: #1a1f29;
+            border-color: var(--color-accent);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            z-index: 10;
         }
 
+        /* VERTICAL LABEL (Visible when collapsed) */
+        .mind-card::after {
+            content: attr(data-name);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            white-space: nowrap;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            color: var(--color-accent-secondary);
+            text-transform: uppercase;
+            opacity: 1;
+            transition: opacity 0.3s ease, transform 0.4s ease;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Hide label when expanded */
+        .mind-card:hover::after {
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(0deg);
+        }
+
+        /* INSIDE CONTENT (Hidden by default) */
+        .mind-card-content {
+            padding: 40px;
+            width: 100%;
+            min-width: 400px;
+            /* Prevent text wrapping during transition */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s ease;
+            transition-delay: 0.05s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            visibility: hidden;
+        }
+
+        .mind-card:hover .mind-card-content {
+            opacity: 1;
+            transform: translateY(0);
+            transition-delay: 0.3s;
+            /* Wait for expansion to partly complete */
+            visibility: visible;
+        }
+
+        /* Content Styling */
         .mind-avatar {
-            width: 200px;
-            height: 200px;
-            margin: 0 auto var(--spacing-lg);
+            width: 120px;
+            height: 120px;
+            margin-bottom: var(--spacing-lg);
             border-radius: 50%;
             background: var(--gradient-primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4rem;
+            font-size: 2.5rem;
             font-weight: 800;
             position: relative;
-            cursor: pointer;
-            transition: all var(--transition-base);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .mind-card:hover .mind-avatar {
-            transform: scale(1.05);
-            box-shadow: 0 0 40px rgba(99, 102, 241, 0.5);
+        .mind-name {
+            font-size: 2.2rem;
+            margin-bottom: 0.25rem;
+            text-align: center;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
-        .status-indicator {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 30px;
+        .mind-role {
+            color: var(--color-accent);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .mind-bio {
+            text-align: center;
+            max-width: 85%;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+            color: var(--color-text-secondary);
+            font-size: 1rem;
+        }
+
+        .mind-skills {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 2.5rem;
+            max-width: 90%;
+        }
+
+        .skill-tag {
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+
+        .skill-tag:hover {
+            border-color: var(--color-accent);
+            color: white;
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .mind-social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .social-link {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
-            border: 3px solid var(--color-bg-primary);
+            background: rgba(255, 255, 255, 0.05);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: var(--color-text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .social-link:hover {
+            background: var(--gradient-primary);
+            color: white;
+            transform: translateY(-4px) scale(1.1);
+            border-color: transparent;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.4);
+        }
+
+        .personality-reveal {
+            display: none;
+            /* Hide for cleaner look in accordion */
+        }
+
+        /* Status Indicator Styles */
+        .status-indicator {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 3px solid #1a1f29;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
         }
 
         .status-online {
@@ -95,318 +248,90 @@
             background: var(--color-accent-secondary);
         }
 
-        .mind-name {
-            font-size: var(--text-2xl);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .mind-role {
-            font-size: var(--text-lg);
-            color: var(--color-accent-secondary);
-            font-family: var(--font-mono);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .mind-bio {
-            color: var(--color-text-secondary);
-            margin-bottom: var(--spacing-lg);
-            line-height: 1.8;
-        }
-
-        .mind-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-xs);
-            justify-content: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .skill-tag {
-            padding: 0.5rem 1rem;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 50px;
-            font-size: var(--text-sm);
-            color: var(--color-accent-secondary);
-        }
-
-        .mind-social {
-            display: flex;
-            gap: var(--spacing-sm);
-            justify-content: center;
-        }
-
-        .personality-reveal {
-            margin-top: var(--spacing-lg);
-            padding: var(--spacing-lg);
-            background: rgba(99, 102, 241, 0.05);
-            border-radius: var(--border-radius-md);
-            border: 1px solid rgba(99, 102, 241, 0.1);
-            opacity: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all var(--transition-base);
-        }
-
-        .mind-card:hover .personality-reveal {
-            opacity: 1;
-            max-height: 500px;
-        }
-
-        .personality-item {
-            display: flex;
-            justify-content: space-between;
-            padding: var(--spacing-sm) 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .personality-item:last-child {
-            border-bottom: none;
-        }
-
-        .personality-label {
-            color: var(--color-text-secondary);
-            font-size: var(--text-sm);
-        }
-
-        .personality-value {
-            color: var(--color-accent-secondary);
-            font-weight: 600;
-            font-size: var(--text-sm);
-        }
-
-        /* Animated Rotating Border Card Effect */
-        .mind-card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 320px;
-            padding: 2px;
-            border-radius: 24px;
-            overflow: visible;
-            line-height: 1.6;
-            transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .mind-card-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            padding: 28px 24px;
-            border-radius: 22px;
-            background: rgba(21, 25, 33, 0.95);
-            backdrop-filter: blur(var(--blur-lg));
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 100%;
-            transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .mind-card::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 2px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.48s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        .mind-card:hover::before {
-            opacity: 1;
-        }
-
-        .mind-card:hover {
-            box-shadow: 0rem 6px 13px rgba(102, 126, 234, 0.1),
-                0rem 24px 24px rgba(102, 126, 234, 0.09),
-                0rem 55px 33px rgba(102, 126, 234, 0.05),
-                0rem 97px 39px rgba(102, 126, 234, 0.01),
-                0rem 152px 43px rgba(102, 126, 234, 0);
-            transform: scale(1.05);
-        }
-
-        /* Different gradient colors for each team member */
-        .mind-card:nth-child(1)::before {
-            background: linear-gradient(45deg, #667eea, #764ba2, #667eea);
-        }
-
-        .mind-card:nth-child(2)::before {
-            background: linear-gradient(45deg, #f093fb, #f5576c, #f093fb);
-        }
-
-        .mind-card:nth-child(3)::before {
-            background: linear-gradient(45deg, #4facfe, #00f2fe, #4facfe);
-        }
-
-        /* Adjust grid to accommodate fixed width cards */
-        .minds-grid {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-2xl);
-            margin-top: var(--spacing-3xl);
-            flex-wrap: wrap;
-        }
-
-        /* Adjust avatar size */
-        .mind-avatar {
-            width: 120px;
-            height: 120px;
-        }
-
-        /* Adjust text sizes for compact design */
-        .mind-name {
-            font-size: var(--text-xl);
-            margin-bottom: 0.25rem;
-        }
-
-        .mind-role {
-            font-size: var(--text-sm);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .mind-bio {
-            font-size: var(--text-sm);
-            margin-bottom: var(--spacing-sm);
-            text-align: center;
-            line-height: 1.6;
-        }
-
-        .mind-skills {
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .skill-tag {
-            padding: 0.4rem 0.8rem;
-            font-size: 0.75rem;
-        }
-
-        /* Hide personality section by default */
-        .personality-reveal {
-            display: none;
-        }
-
-        .mind-card:hover .personality-reveal {
-            display: block;
-            opacity: 1;
-            max-height: 500px;
-        }
-
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
+        /* MOBILE RESPONSIVE: Stack Vertically */
+        @media (max-width: 900px) {
             .minds-grid {
-                gap: var(--spacing-lg);
-                padding: 0 var(--spacing-md);
+                flex-direction: column;
+                height: 800px;
+                /* Taller container for vertical stack */
+                padding: 0 var(--spacing-sm);
             }
 
             .mind-card {
+                flex: 1;
+                /* Collapsed height */
                 width: 100%;
-                max-width: 340px;
+                flex-direction: row;
+                /* Content flows nicely? or column? */
+                align-items: center;
+                /* Center label */
             }
 
-            .mind-card-content {
-                padding: 24px 20px;
-                gap: 14px;
-            }
-
-            .mind-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 3rem;
-            }
-
-            .status-indicator {
-                width: 24px;
-                height: 24px;
-                font-size: 0.875rem;
-            }
-
-            .mind-name {
-                font-size: var(--text-lg);
-            }
-
-            .mind-role {
-                font-size: 0.8rem;
-            }
-
-            .mind-bio {
-                font-size: 0.8rem;
-                line-height: 1.5;
-            }
-
-            .skill-tag {
-                padding: 0.35rem 0.7rem;
-                font-size: 0.7rem;
-            }
-
-            /* On mobile, show personality on tap/click instead of requiring hover */
-            .mind-card.active .personality-reveal {
-                display: block;
-                opacity: 1;
-                max-height: 500px;
-            }
-
-            /* Reduce scale effect on mobile */
             .mind-card:hover {
-                transform: scale(1.02);
+                flex: 4;
+                /* Expand height */
+            }
+
+            .mind-card::after {
+                transform: translate(-50%, -50%) rotate(0deg);
+                /* Horizontal text label */
+                font-size: 1.2rem;
+                letter-spacing: 0.1em;
+            }
+
+            /* Adjust content for vertical expansion */
+            .mind-card-content {
+                min-width: unset;
+                width: 100%;
+                padding: 20px;
+                transform: translateY(10px);
             }
         }
 
-        @media (max-width: 480px) {
-            .mind-card {
+        /* MOBILE RESPONSIVE OVERRIDES: Standard Stacked Cards */
+        @media (max-width: 900px) {
+            .minds-grid {
+                flex-direction: column;
+                height: auto;
+                padding: 0 var(--spacing-sm);
+                gap: 2rem;
+                align-items: center;
+            }
+
+            .mind-card,
+            .mind-card:hover {
+                flex: none;
                 width: 100%;
-                max-width: 300px;
+                max-width: 500px;
+                height: auto;
+                transform: none !important;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                background: rgba(21, 25, 33, 0.8);
+            }
+
+            .mind-card:hover {
+                background: #1a1f29;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            }
+
+            .mind-card::after {
+                display: none;
             }
 
             .mind-card-content {
-                padding: 20px 16px;
-                gap: 12px;
-            }
-
-            .mind-avatar {
-                width: 90px;
-                height: 90px;
-                font-size: 2.5rem;
-            }
-
-            .mind-name {
-                font-size: var(--text-base);
-            }
-
-            .mind-role {
-                font-size: 0.75rem;
-            }
-
-            .mind-bio {
-                font-size: 0.75rem;
-            }
-
-            .mind-skills {
-                gap: 0.4rem;
-            }
-
-            .skill-tag {
-                padding: 0.3rem 0.6rem;
-                font-size: 0.65rem;
-            }
-
-            .mind-social {
-                gap: 0.6rem;
-            }
-
-            .social-link svg {
-                width: 16px;
-                height: 16px;
+                width: 100%;
+                min-width: unset;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                padding: 30px 20px;
             }
         }
     </style>
 </head>
 
 <body>
+    <script src="../js/loader.js"></script>
     <!-- Custom Cursor -->
     <div class="custom-cursor">
         <div class="cursor-dot"></div>
@@ -471,7 +396,7 @@
         <div class="container">
             <div class="minds-grid">
                 <!-- Mind 1: Alex Chen -->
-                <article class="mind-card reveal">
+                <article class="mind-card" data-name="ALEX CHEN">
                     <div class="mind-card-content">
                         <div class="mind-avatar magnetic" data-cursor="Alex Chen">
                             AC
@@ -481,7 +406,7 @@
                         </div>
 
                         <h2 class="mind-name">Alex Chen</h2>
-                        <p class="mind-role">Creative Director</p>
+                        <span class="mind-role">Creative Director</span>
 
                         <p class="mind-bio">
                             Visionary designer with 10+ years crafting award-winning digital experiences.
@@ -505,7 +430,7 @@
                             <a href="#" class="social-link magnetic" aria-label="Dribbble">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                                     <path
-                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5zm-1.3-1.2c-1 2.3-2.6 3.6-4.6 4.5-1-1.8-2.1-3.4-3.3-4.8 1.2-.5 2.5-.8 3.9-.8 1.5 0 2.9.4 4 1.1z" />
+                                        d="M10 0C4.5 0 0 4.5 0 10s4.5 10 10 10 10-4.5 10-10S15.5 0 10 0zm6.5 5.5c1.1 1.4 1.8 3.2 1.8 5.1 0 .3 0 .6-.1.9-2.4-.5-4.6-.5-6.5-.1-.1-.3-.3-.6-.4-.9 2.2-1 4-2.4 5.2-5zm-1.3-1.2c-1 2.3-2.6 3.6-4.6 4.5-1-1.8-2.1-3.4-3.3-4.8 1.2-.5 2.5-.8 3.9-.8 1.5 0 2.9.4 4 1.1zM5.5 4.3c1.2 1.4 2.3 3 3.3 4.8-2.5.7-5.3 1-8.2 1-.1-.5-.1-1-.1-1.5 0-1.8.6-3.4 1.6-4.7 1.1.5 2.3.9 3.4 1.4zm-3.9 7c3.1 0 6-.3 8.6-1 .1.3.3.6.4.9-2.8 1.2-5 3.4-6.3 6.3-1.5-1.3-2.5-3.1-2.7-5.2v-1zm4.9 6.5c1.2-2.7 3.2-4.8 5.8-6 .8 2.1 1.4 4.3 1.7 6.6-1.1.5-2.3.8-3.6.8-1.5 0-2.9-.5-4.1-1.4zm6.3.7c-.3-2.2-.9-4.3-1.6-6.3 1.7-.3 3.6-.3 5.7.1-.4 2.7-1.9 5-4.1 6.2z" />
                                 </svg>
                             </a>
                             <a href="#" class="social-link magnetic" aria-label="GitHub">
@@ -515,32 +440,11 @@
                                 </svg>
                             </a>
                         </div>
-
-                        <div class="personality-reveal">
-                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
-                            </h4>
-                            <div class="personality-item">
-                                <span class="personality-label">Coffee Order:</span>
-                                <span class="personality-value">Oat Milk Latte</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Design Tool:</span>
-                                <span class="personality-value">Figma</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Superpower:</span>
-                                <span class="personality-value">Pixel Perfection</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Inspiration:</span>
-                                <span class="personality-value">Nature & Architecture</span>
-                            </div>
-                        </div>
                     </div>
                 </article>
 
                 <!-- Mind 2: Jordan Rivera -->
-                <article class="mind-card reveal">
+                <article class="mind-card" data-name="JORDAN RIVERA">
                     <div class="mind-card-content">
                         <div class="mind-avatar magnetic" data-cursor="Jordan Rivera"
                             style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
@@ -551,7 +455,7 @@
                         </div>
 
                         <h2 class="mind-name">Jordan Rivera</h2>
-                        <p class="mind-role">Lead Developer</p>
+                        <span class="mind-role">Lead Developer</span>
 
                         <p class="mind-bio">
                             Full-stack wizard who turns complex problems into elegant code.
@@ -585,32 +489,11 @@
                                 </svg>
                             </a>
                         </div>
-
-                        <div class="personality-reveal">
-                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
-                            </h4>
-                            <div class="personality-item">
-                                <span class="personality-label">Coffee Order:</span>
-                                <span class="personality-value">Cold Brew, Black</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Code Editor:</span>
-                                <span class="personality-value">VS Code + Vim</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Superpower:</span>
-                                <span class="personality-value">Debugging Anything</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Inspiration:</span>
-                                <span class="personality-value">Open Source</span>
-                            </div>
-                        </div>
                     </div>
                 </article>
 
                 <!-- Mind 3: Sam Taylor -->
-                <article class="mind-card reveal">
+                <article class="mind-card" data-name="SAM TAYLOR">
                     <div class="mind-card-content">
                         <div class="mind-avatar magnetic" data-cursor="Sam Taylor"
                             style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
@@ -621,7 +504,7 @@
                         </div>
 
                         <h2 class="mind-name">Sam Taylor</h2>
-                        <p class="mind-role">Brand Strategist</p>
+                        <span class="mind-role">Brand Strategist</span>
 
                         <p class="mind-bio">
                             Strategic thinker who transforms brands into movements.
@@ -657,27 +540,6 @@
                                     <circle cx="15.3" cy="4.7" r="1.2" />
                                 </svg>
                             </a>
-                        </div>
-
-                        <div class="personality-reveal">
-                            <h4 style="margin-bottom: 1rem; color: var(--color-accent-secondary);">Personality Traits
-                            </h4>
-                            <div class="personality-item">
-                                <span class="personality-label">Coffee Order:</span>
-                                <span class="personality-value">Cappuccino</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Favorite Tool:</span>
-                                <span class="personality-value">Notion</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Superpower:</span>
-                                <span class="personality-value">Storytelling</span>
-                            </div>
-                            <div class="personality-item">
-                                <span class="personality-label">Inspiration:</span>
-                                <span class="personality-value">Human Psychology</span>
-                            </div>
                         </div>
                     </div>
                 </article>
@@ -859,19 +721,17 @@
 
             mindCards.forEach(card => {
                 card.addEventListener('click', function (e) {
-                    // Only on mobile/tablet
-                    if (window.innerWidth <= 768) {
-                        // Toggle active class
-                        const isActive = this.classList.contains('active');
+                    // Start animation on click (useful for mobile where hover doesn't exist)
+                    // The CSS handles :hover, which works for tap on some devices,
+                    // but adding a class ensures reliability
 
-                        // Remove active from all cards
-                        mindCards.forEach(c => c.classList.remove('active'));
+                    // Remove active from others
+                    mindCards.forEach(c => {
+                        if (c !== this) c.classList.remove('active');
+                    });
 
-                        // Add active to clicked card if it wasn't active
-                        if (!isActive) {
-                            this.classList.add('active');
-                        }
-                    }
+                    // Toggle this one
+                    this.classList.toggle('active');
                 });
             });
         });
