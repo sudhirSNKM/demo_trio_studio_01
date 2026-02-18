@@ -13,6 +13,196 @@
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/animations.css">
     <link rel="stylesheet" href="../css/components.css">
+
+    <style>
+        /* GOOGLE-STYLE UI OVERRIDES */
+        .insights-hero {
+            padding-top: calc(var(--navbar-height) + 4rem);
+            padding-bottom: 4rem;
+            text-align: center;
+            background: radial-gradient(circle at top center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+        }
+
+        .hero-headline {
+            font-family: 'Inter Tight', sans-serif;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtext {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        /* PILL FILTERS */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .filter-pill {
+            padding: 10px 24px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--color-text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .filter-pill.active {
+            background: var(--color-accent);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        /* CARD GRID */
+        .google-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 24px;
+            /* Google uses generous spacing */
+            padding-bottom: 6rem;
+        }
+
+        /* GOOGLE MATERIAL CARD STYLE */
+        .insight-card {
+            background: #13161c;
+            /* Slightly lighter surface */
+            border-radius: 28px;
+            /* High radius */
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 320px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.2, 0, 0, 1);
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            /* If anchor */
+        }
+
+        .insight-card:hover {
+            transform: translateY(-8px);
+            background: #1a1f29;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Card Icon/Badge */
+        .card-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--color-accent);
+            transition: all 0.3s;
+        }
+
+        .insight-card:hover .card-icon-wrapper {
+            background: var(--color-accent);
+            color: white;
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        /* Content */
+        .card-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+            color: var(--color-text-primary);
+        }
+
+        .card-content p {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0;
+        }
+
+        /* Card Footer */
+        .card-footer {
+            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.5rem;
+        }
+
+        .read-pill {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 50px;
+        }
+
+        .arrow-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: all 0.3s;
+        }
+
+        .insight-card:hover .arrow-link {
+            background: white;
+            color: black;
+            border-color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 2.5rem;
+            }
+
+            .filter-container {
+                justify-content: flex-start;
+                overflow-x: auto;
+                padding-bottom: 1rem;
+            }
+
+            .google-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -47,47 +237,122 @@
             <button class="menu-toggle"><span></span><span></span><span></span></button>
         </div>
     </nav>
-    <section
-        style="min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: calc(var(--navbar-height) + var(--spacing-3xl));">
+
+    <!-- GOOGLE STYLE CONTENT -->
+    <section class="insights-hero">
         <div class="container">
-            <h1 class="section-title">Insights</h1>
-            <p class="section-description" style="max-width: 600px; margin: 2rem auto;">
-                Thoughts, ideas, and learnings from our journey building digital experiences.
+            <h1 class="hero-headline animate-in">Change for a cleaner world.</h1>
+            <p class="hero-subtext animate-in">
+                Securing a fast and reliable transition to a carbon-neutral economy through energy and recycling.
             </p>
-            <div
-                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem; text-align: left;">
-                <div class="glass-card" style="padding: 2rem;">
-                    <span
-                        style="color: var(--color-accent-secondary); font-size: var(--text-sm); font-weight: 600;">Design</span>
-                    <h3 style="color: var(--color-text-primary); margin: 1rem 0; font-size: var(--text-xl);">The Power
-                        of Minimalism in Modern Web Design</h3>
-                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Exploring how less can truly be
-                        more when it comes to creating impactful digital experiences.</p>
-                    <span style="color: var(--color-text-secondary); font-size: var(--text-sm);">5 min read</span>
-                </div>
-                <div class="glass-card" style="padding: 2rem;">
-                    <span
-                        style="color: var(--color-accent-secondary); font-size: var(--text-sm); font-weight: 600;">Development</span>
-                    <h3 style="color: var(--color-text-primary); margin: 1rem 0; font-size: var(--text-xl);">Building
-                        Performant Web Applications</h3>
-                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">Best practices for creating
-                        lightning-fast web apps that users love.</p>
-                    <span style="color: var(--color-text-secondary); font-size: var(--text-sm);">8 min read</span>
-                </div>
-                <div class="glass-card" style="padding: 2rem;">
-                    <span
-                        style="color: var(--color-accent-secondary); font-size: var(--text-sm); font-weight: 600;">Strategy</span>
-                    <h3 style="color: var(--color-text-primary); margin: 1rem 0; font-size: var(--text-xl);">Digital
-                        Transformation in 2026</h3>
-                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">How businesses are adapting to
-                        the rapidly evolving digital landscape.</p>
-                    <span style="color: var(--color-text-secondary); font-size: var(--text-sm);">6 min read</span>
-                </div>
+
+            <div class="filter-container animate-in">
+                <button class="filter-pill active">All Topics</button>
+                <button class="filter-pill">Recycling</button>
+                <button class="filter-pill">Energy</button>
+                <button class="filter-pill">Bio-Future</button>
+                <button class="filter-pill">Innovation</button>
             </div>
-            <a href="contact.html" class="btn-primary magnetic"
-                style="margin-top: 3rem; display: inline-flex;"><span>Subscribe to Updates</span></a>
+
+            <div class="google-grid">
+                <!-- Card 1: Battery Recycling -->
+                <article class="insight-card animate-in magnetic">
+                    <div class="card-icon-wrapper" style="color: #10B981;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="16" height="10" rx="2" ry="2"></rect>
+                            <line x1="22" y1="11" x2="22" y2="13"></line>
+                            <line x1="6" y1="10" x2="6" y2="14"></line>
+                            <line x1="10" y1="10" x2="10" y2="14"></line>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Battery Recycling</h3>
+                        <p>Revolutionizing the EV value chain by recovering 95% of scarce metals like cobalt and lithium.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="read-pill">Recycling</span>
+                        <div class="arrow-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 2: Carbon-Free Energy -->
+                <article class="insight-card animate-in magnetic">
+                    <div class="card-icon-wrapper" style="color: #6366F1;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Carbon-Free Energy</h3>
+                        <p>Providing reliable, clean energy through nuclear, hydro, and wind power for a stable grid.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="read-pill">Energy</span>
+                        <div class="arrow-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Card 3: Bio2X -->
+                <article class="insight-card animate-in magnetic">
+                    <div class="card-icon-wrapper" style="color: #F59E0B;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+                            <path d="M8.5 8.5a4 4 0 0 0 5.66 5.66"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Bio2X Solutions</h3>
+                        <p>Turning agricultural waste and straw into high-value sustainable textiles and materials.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="read-pill">Bio-Future</span>
+                        <div class="arrow-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+
+                 <!-- Card 4: Plastic Refining -->
+                 <article class="insight-card animate-in magnetic">
+                    <div class="card-icon-wrapper" style="color: #EF4444;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <h3>Plastic Refining</h3>
+                        <p>Transforming complex plastic waste into high-quality raw materials using chemical recycling.</p>
+                    </div>
+                    <div class="card-footer">
+                        <span class="read-pill">Innovation</span>
+                        <div class="arrow-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </article>
+            </div>
         </div>
     </section>
+
+    <!-- Chatbot (Preserved) -->
     <div class="chatbot" id="chatbot"><button class="chatbot-toggle magnetic" id="chatbot-toggle"><svg class="icon-chat"
                 width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="2" />
