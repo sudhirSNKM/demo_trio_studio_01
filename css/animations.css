@@ -658,6 +658,14 @@
     .stats-grid {
         grid-template-columns: repeat(2, 1fr);
     }
+
+    /* Mobile Hero Fix: Prevent content overlap with Navbar */
+    .hero {
+        align-items: flex-start;
+        /* Start content from top, not center */
+        padding-top: calc(var(--navbar-height) + 4rem);
+        /* Extra clear space */
+    }
 }
 
 /* Reduced Motion */
