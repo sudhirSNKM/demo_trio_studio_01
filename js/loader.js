@@ -2,7 +2,7 @@
 (function () {
     // 1. Create HTML Structure on execution
     const loaderHTML = `
-    <div class="loader-overlay" id="global-loader">
+    <div class="loader-overlay" id="global-loader" style="display: flex; flex-direction: column; justify-content: center; align-items: center; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 99999; background: rgba(11, 14, 20, 0.95); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);">
         <div class="loader">
             <div class="loader__bar"></div>
             <div class="loader__bar"></div>
@@ -11,7 +11,7 @@
             <div class="loader__bar"></div>
             <div class="loader__ball"></div>
         </div>
-        <div class="offline-message" id="offline-msg">
+        <div class="offline-message" id="offline-msg" style="margin-top: 40px; text-align: center;">
             <span style="display:block; margin-bottom:5px; color:#6366f1; font-weight:bold;">CONNECTION LOST</span>
             You are currently offline
         </div>

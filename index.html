@@ -286,6 +286,29 @@
                 background-position: 0% 50%;
             }
         }
+
+        /* Mobile Fix for Morphing Text Overlap */
+        @media (max-width: 768px) {
+            .morphing-container {
+                height: 2.8em;
+                /* Reserve space for wrapped text */
+                display: block;
+                /* Ensure block layout */
+                margin-bottom: 0.5rem;
+            }
+
+            .hero-title {
+                margin-bottom: 3rem !important;
+                /* Push description down */
+            }
+
+            .morph-word {
+                line-height: 1.2;
+                /* Tighter line height for wrapped text */
+                font-size: 0.9em;
+                /* Slightly smaller to prevent excessive wrapping */
+            }
+        }
     </style>
 
     <!-- SVG Filter for potential advanced morphing (optional but good to have) -->
